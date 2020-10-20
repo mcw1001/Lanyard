@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Lanyard</string>
+    <string name="listUserTitle">User Name:</string>
+    <string name="listPassTitle">Password:</string>
 </resources>
