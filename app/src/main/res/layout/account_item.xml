@@ -4,7 +4,11 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:cardCornerRadius="4dp"
-    android:layout_margin="5dp">
+    android:layout_marginLeft="5dp"
+    android:layout_marginRight="5dp"
+    android:layout_marginTop="2dp"
+    android:layout_marginBottom="5dp"
+    >
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -28,6 +32,7 @@
             android:layout_height="wrap_content"
             android:text="Title"
             android:textStyle="bold"
+            android:textColor="@color/mainTextColor"
             app:layout_constraintLeft_toRightOf="@+id/iconAccountItem"
             app:layout_constraintTop_toTopOf="parent"
             android:textSize="@dimen/listTitle"
@@ -39,21 +44,22 @@
             android:text="@string/listUserTitle"
             android:textSize="@dimen/listText"
             android:textStyle="bold"
+            android:textColor="@color/mainTextColor"
             android:layout_marginStart="@dimen/startMarginList"
             app:layout_constraintLeft_toRightOf="@id/iconAccountItem"
             app:layout_constraintTop_toBottomOf="@id/titleAccountItem"
-            android:layout_marginTop="@dimen/listTextSpacing"
+
             />
         <TextView
             android:id="@+id/userNameAccountItem"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="juhnbujjbu"
+            android:text="empty user name"
             android:textSize="@dimen/listText"
             android:layout_marginStart="@dimen/startMarginList"
             app:layout_constraintLeft_toRightOf="@id/userNameTitleAccountItem"
             app:layout_constraintTop_toBottomOf="@id/titleAccountItem"
-            android:layout_marginTop="@dimen/listTextSpacing"
+
             />
         <TextView
             android:id="@+id/passTitleAccountItem"
@@ -62,6 +68,7 @@
             android:text="@string/listPassTitle"
             android:textSize="@dimen/listText"
             android:textStyle="bold"
+            android:textColor="@color/mainTextColor"
             android:layout_marginStart="@dimen/startMarginList"
             app:layout_constraintLeft_toRightOf="@id/iconAccountItem"
             app:layout_constraintTop_toBottomOf="@id/userNameTitleAccountItem"
@@ -72,7 +79,7 @@
             android:id="@+id/passAccountItem"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="hugtyfhvktjhktjghhujuihj"
+            android:text="empty password"
             android:textSize="@dimen/listText"
             android:layout_marginStart="@dimen/startMarginList"
             app:layout_constraintLeft_toRightOf="@id/passTitleAccountItem"
