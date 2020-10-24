@@ -1,3 +1,31 @@
 <resources>
     <string name="app_name">Lanyard</string>
+<!--    LOGIN ACTIVITY STRINGS      -->
+    <string name="loginBtn">login</string>
+    <string name="registerBtn">register</string>
+    <string name="usernameTxt">Username</string>
+    <string name="passwordTxt">Password</string>
+
+    <string name="emailHint">email@example.com</string>
+    <string name="filePrefsName">login_preferences</string>
+
+    <string name="invalidUserPass">Invalid Username/Password!</string>
+
+    <string name="emptyUserPassWarning">Username or Password is empty!</string>
+    <string name="emptyUserWarning">Username is empty</string>
+    <string name="emptyPassWarning">Password is empty</string>
+
+    <string name="registerAlertTitle">Register this account, and erase the previous one?</string>
+    <string name="noUserAccountAlert">No user account in memory, create an account?</string>
+    <!--  ^^^ LOGIN ACTIVITY STRINGS  ^^^    -->
+
+
+    <!-- Alert Dialogs-->
+    <string name="ok">OK</string>
+    <string name="yes">yes</string>
+    <string name="cancel">Cancel</string>
+    <string name="no">no</string>
+    <string name="alertTitle">ATTENTION</string>
+
+    <!--  ^^^ Alert Dialogs  ^^^    -->
 </resources>
