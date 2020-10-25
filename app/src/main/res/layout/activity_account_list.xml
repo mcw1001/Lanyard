@@ -20,5 +20,6 @@
         android:src="@drawable/ic_baseline_add_24"
         android:layout_margin="16dp"
         android:backgroundTint="@color/keyYellowAccentColor"
-        app:fabSize="normal"/>
+        app:fabSize="normal"
+        android:onClick="onNewAccountClick"/>
 </FrameLayout>

@@ -4,7 +4,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -49,8 +57,36 @@ public class AccountListActivity extends AppCompatActivity {
         viewItemsList.add(new AccountItem(R.drawable.placeholder,"Steam","PC_OVERLORDjeff","passwordPC"));
         viewItemsList.add(new AccountItem(R.drawable.placeholder,"Epic","PC_OVERLORDjeff","IhateApple"));
         viewItemsList.add(new AccountItem(R.drawable.placeholder,"wlu","bobx9090","CP340"));
+        
+    }
+    
+    //copies password to clipboard
+    public void onCopyClick(View view){
 
+        View card=(View) view.getParent();
+        //get title of account
+        TextView titleView=(TextView) card.findViewById(R.id.titleAccountItem);
+        String title=titleView.getText().toString();
+        //get password
+        TextView passView = (TextView)card.findViewById(R.id.passAccountItem);
+        String password = passView.getText().toString();
 
+        //copy to clipboard
+        ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+        ClipData clip = ClipData.newPlainText(title+" password",password);
+        clipboard.setPrimaryClip(clip);
+
+        //print message it toast
+        String copyMessage=title+" "+getString(R.string.copyMsg);
+        Toast toast = Toast.makeText(this , copyMessage, Toast.LENGTH_SHORT);
+        toast.show(); //display your message box
+
+    }
+
+    public void onNewAccountClick(View view){
+        //TODO change MainActivity to activity that allows user to make new account
+        Intent i = new Intent(this, MainActivity.class);
+        startActivityForResult(i, 10);
     }
 
 }

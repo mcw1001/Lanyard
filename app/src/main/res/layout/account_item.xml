@@ -97,6 +97,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             android:layout_margin="@dimen/listText"
+            android:onClick="onCopyClick"
             />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
