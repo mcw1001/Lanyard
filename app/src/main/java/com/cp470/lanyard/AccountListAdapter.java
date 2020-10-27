@@ -13,7 +13,13 @@ import java.util.ArrayList;
 
 public class AccountListAdapter extends RecyclerView.Adapter<AccountListAdapter.AccountViewHolder> {
     private ArrayList<AccountItem> mAccountList;
-
+    private OnItemClickListener mListener;
+    public interface  OnItemClickListener{
+        void onItemClick(int position);
+    }
+    public void setOnItemClickListener(OnItemClickListener listener){
+        mListener=listener;
+    }
     public static class AccountViewHolder extends RecyclerView.ViewHolder{
         public ImageView iconView;
         public TextView accountTitleView;
@@ -22,7 +28,7 @@ public class AccountListAdapter extends RecyclerView.Adapter<AccountListAdapter.
         public TextView passView;
         public TextView uNameView;
 
-        public AccountViewHolder(@NonNull View itemView) {
+        public AccountViewHolder(@NonNull View itemView, final OnItemClickListener listener) {
             super(itemView);
             //get all views from item layout
             iconView=itemView.findViewById(R.id.iconAccountItem);
@@ -31,6 +37,19 @@ public class AccountListAdapter extends RecyclerView.Adapter<AccountListAdapter.
             //uNameTitleView=itemView.findViewById(R.id.userNameTitleAccountItem);
             passView=itemView.findViewById(R.id.passAccountItem);
             uNameView=itemView.findViewById(R.id.userNameAccountItem);
+
+            //
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(listener!=null){//need listener to call method
+                        int position = getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION){//make sure card not deleted
+                            listener.onItemClick(position);//get pistion of card in recyclerView and pass to interface
+                        }
+                    }
+                }
+            });
         }
     }
 
@@ -41,7 +60,7 @@ public class AccountListAdapter extends RecyclerView.Adapter<AccountListAdapter.
     @Override
     public AccountViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.account_item,parent,false);
-        AccountViewHolder avh = new AccountViewHolder(v);
+        AccountViewHolder avh = new AccountViewHolder(v,mListener);
         return avh;
     }
 

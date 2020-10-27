@@ -20,7 +20,7 @@ import java.util.ArrayList;
 
 public class AccountListActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
-    private RecyclerView.Adapter mAdapter;
+    private AccountListAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
 
     ArrayList<AccountItem> viewItemsList;
@@ -41,8 +41,34 @@ public class AccountListActivity extends AppCompatActivity {
         mAdapter = new AccountListAdapter(viewItemsList);//pass item object list
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
+        mAdapter.setOnItemClickListener(new AccountListAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                //handle click on card item pass position of card clicked from RecyclerView adapter
+                handleCardClick(position);
+            }
+        });
     }
 
+    private void handleCardClick(int postion){
+        AccountItem account = viewItemsList.get(postion);//get item at same position as card clicked\
+        String title = account.getTitle();
+        String uName = account.getUserName();
+        String pass = account.getPassword();
+
+        //TEMPORARY print to log and toast
+        String clickMessage=title+" clicked";
+        Toast toast = Toast.makeText(this , clickMessage, Toast.LENGTH_LONG);
+        toast.show(); //display your message box
+        Log.i("handleCardClick", "handleCardClick: user name is "+uName);
+        Log.i("handleCardClick", "handleCardClick: password is "+pass);
+
+        //TODO pass account object to detail view actvity
+        //use intent
+
+
+
+    }
     private void loadItemList(){
         //TODO load viewItemsList from database or file storage system
 
