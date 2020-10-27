@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="listTitle">20sp</dimen>
+    <dimen name="listText">14sp</dimen>
+    <dimen name="listIconH">50dp</dimen>
+    <dimen name="listIconW">50dp</dimen>
+    <dimen name="startMarginList">10dp</dimen>
+    <dimen name="listTextSpacing">7dp</dimen>
+
+
+</resources>

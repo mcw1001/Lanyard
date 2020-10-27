@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="4dp"
+    android:layout_marginLeft="5dp"
+    android:layout_marginRight="5dp"
+    android:layout_marginTop="2dp"
+    android:layout_marginBottom="5dp"
+    >
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/iconAccountItem"
+            android:layout_width="@dimen/listIconW"
+            android:layout_height="@dimen/listIconH"
+            android:src="@drawable/placeholder"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_margin="@dimen/listText"
+            />
+
+        <TextView
+            android:id="@+id/titleAccountItem"
+            android:layout_marginStart="@dimen/startMarginList"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Title"
+            android:textStyle="bold"
+            android:textColor="@color/mainTextColor"
+            app:layout_constraintLeft_toRightOf="@+id/iconAccountItem"
+            app:layout_constraintTop_toTopOf="parent"
+            android:textSize="@dimen/listTitle"
+            android:layout_marginTop="@dimen/listTextSpacing"/>
+        <TextView
+            android:id="@+id/userNameTitleAccountItem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/listUserTitle"
+            android:textSize="@dimen/listText"
+            android:textStyle="bold"
+            android:textColor="@color/mainTextColor"
+            android:layout_marginStart="@dimen/startMarginList"
+            app:layout_constraintLeft_toRightOf="@id/iconAccountItem"
+            app:layout_constraintTop_toBottomOf="@id/titleAccountItem"
+
+            />
+        <TextView
+            android:id="@+id/userNameAccountItem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="empty user name"
+            android:textSize="@dimen/listText"
+            android:layout_marginStart="@dimen/startMarginList"
+            app:layout_constraintLeft_toRightOf="@id/userNameTitleAccountItem"
+            app:layout_constraintTop_toBottomOf="@id/titleAccountItem"
+
+            />
+        <TextView
+            android:id="@+id/passTitleAccountItem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/listPassTitle"
+            android:textSize="@dimen/listText"
+            android:textStyle="bold"
+            android:textColor="@color/mainTextColor"
+            android:layout_marginStart="@dimen/startMarginList"
+            app:layout_constraintLeft_toRightOf="@id/iconAccountItem"
+            app:layout_constraintTop_toBottomOf="@id/userNameTitleAccountItem"
+            android:layout_marginBottom="@dimen/listTextSpacing"
+            />
+
+        <TextView
+            android:id="@+id/passAccountItem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="empty password"
+            android:textSize="@dimen/listText"
+            android:layout_marginStart="@dimen/startMarginList"
+            app:layout_constraintLeft_toRightOf="@id/passTitleAccountItem"
+            app:layout_constraintTop_toBottomOf="@id/userNameTitleAccountItem"
+            android:layout_marginBottom="@dimen/listTextSpacing"
+            />
+
+        <ImageButton
+            android:id="@+id/clipAccountItem"
+            android:background="@android:color/background_light"
+            android:layout_width="@dimen/listIconW"
+            android:layout_height="@dimen/listIconH"
+            android:src="@drawable/ic_baseline_file_copy_24"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_margin="@dimen/listText"
+            android:onClick="onCopyClick"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>

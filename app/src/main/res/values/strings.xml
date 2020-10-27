@@ -1,5 +1,8 @@
 <resources>
     <string name="app_name">Lanyard</string>
+    <string name="listUserTitle">User Name:</string>
+    <string name="listPassTitle">Password:</string>
+    <string name="copyMsg"> password copied to clipboard</string>
 <!--    LOGIN ACTIVITY STRINGS      -->
     <string name="loginBtn">login</string>
     <string name="registerBtn">register</string>
