@@ -45,7 +45,6 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void onLoginClicked(View v){
-        //TODO Login validation then save/load
 
         final String username = usernameMaster.getText().toString();
         //less secure to have string even temp store password but deal with it later
@@ -74,8 +73,8 @@ public class LoginActivity extends AppCompatActivity {
             builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
                     createAccount(username,password);
-                    //TODO Jump to MainActivity, replace mainActivity with actual main activity
-                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                    //TODO Jump to MainActivity, decide what activity is the actual main activity
+                    Intent intent = new Intent(LoginActivity.this, AccountListActivity.class);
                     startActivity(intent);
                 }
             });
@@ -93,8 +92,7 @@ public class LoginActivity extends AppCompatActivity {
 //                }
         }else{
             //TODO welcome message?
-            //TODO jump to main activity
-            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+            Intent intent = new Intent(LoginActivity.this, AccountListActivity.class);
             startActivity(intent);
         }
     }
@@ -158,7 +156,7 @@ public class LoginActivity extends AppCompatActivity {
                 if(validate(username,password)>-2){
                     createAccount(username,password);
                     //TODO jump to main activity
-                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                    Intent intent = new Intent(LoginActivity.this, AccountListActivity.class);
                     startActivity(intent);
                 }else{
                     Toast toast = Toast.makeText(LoginActivity.this,getResources().getString(R.string.invalidUserPass),Toast.LENGTH_LONG);

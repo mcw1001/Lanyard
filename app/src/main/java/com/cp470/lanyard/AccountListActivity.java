@@ -58,7 +58,7 @@ public class AccountListActivity extends AppCompatActivity {
 
         //TEMPORARY print to log and toast
         String clickMessage=title+" clicked";
-        Toast toast = Toast.makeText(this , clickMessage, Toast.LENGTH_LONG);
+        Toast toast = Toast.makeText(this , clickMessage, Toast.LENGTH_SHORT);
         toast.show(); //display your message box
         Log.i("handleCardClick", "handleCardClick: user name is "+uName);
         Log.i("handleCardClick", "handleCardClick: password is "+pass);
