@@ -4,6 +4,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 
+import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -121,6 +122,19 @@ public class LoginActivity extends AppCompatActivity {
         }else{ //Invalid combo, not equal, not new, not empty
             return INVALID_USERNAME_PASSWORD;
         }
+    }
+
+    /*
+    Developer feature to make it easy to test the default state in early iterations
+    Remove when necessary
+     */
+    @SuppressLint("ApplySharedPref")
+    public void onClickDeveloperReset(View v){
+        SharedPreferences prefs = getSharedPreferences(loginPrefsFileName,MODE_PRIVATE);
+        SharedPreferences.Editor prefEdit = prefs.edit();
+        prefEdit.clear().commit();//commit clear immediately
+        Toast toast = Toast.makeText(this,"Login Credentials Reset",Toast.LENGTH_SHORT);
+        toast.show();
     }
 
     private void createAccount(String username, String password){
