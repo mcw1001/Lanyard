@@ -9,8 +9,12 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -48,8 +52,41 @@ public class AccountListActivity extends AppCompatActivity {
                 handleCardClick(position);
             }
         });
-    }
 
+        //prevent key board from poping up on activity start
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+
+        //add listener for text change in textbar
+        EditText searchBar = (EditText) findViewById(R.id.accountListSearch);
+
+        searchBar.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                filter(s.toString());
+            }
+        });
+    }
+    private void filter(String text){
+        ArrayList<AccountItem> filteredList= new ArrayList<AccountItem>();
+        //add items that contain search text in title to new list
+        for (AccountItem item : viewItemsList){
+            if(item.getTitle().toLowerCase().contains(text.toLowerCase())){
+                filteredList.add(item);
+            }
+        }
+
+        mAdapter.filterList(filteredList);//pass to adapter to update view
+    }
     private void handleCardClick(int postion){
         AccountItem account = viewItemsList.get(postion);//get item at same position as card clicked\
         String title = account.getTitle();

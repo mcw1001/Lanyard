@@ -78,4 +78,10 @@ public class AccountListAdapter extends RecyclerView.Adapter<AccountListAdapter.
     public int getItemCount() {
         return mAccountList.size();
     }
+
+    public void filterList(ArrayList<AccountItem> filteredList){
+        //update list that is shown with new filtered list
+        mAccountList = filteredList;
+        notifyDataSetChanged();
+    }
 }

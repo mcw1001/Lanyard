@@ -29,6 +29,7 @@
     <string name="cancel">Cancel</string>
     <string name="no">no</string>
     <string name="alertTitle">ATTENTION</string>
+    <string name="hintAccountList">Search for account</string>
 
     <!--  ^^^ Alert Dialogs  ^^^    -->
 </resources>
