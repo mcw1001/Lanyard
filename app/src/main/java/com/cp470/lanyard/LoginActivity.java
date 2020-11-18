@@ -17,7 +17,14 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 //import com.google.android.material.snackbar.Snackbar;
-
+/*
+Group Members:
+    Michael Child-Wynne-Jones
+    Morgenne Besenschek
+    James Robertson
+    Amardeep Sarang
+    Asad Abbas
+ */
 public class LoginActivity extends AppCompatActivity {
 
     protected static final String ACTIVITY_NAME = "LoginActivity";

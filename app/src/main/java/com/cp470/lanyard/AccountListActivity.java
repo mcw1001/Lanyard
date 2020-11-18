@@ -148,8 +148,21 @@ public class AccountListActivity extends AppCompatActivity {
 
     public void onNewAccountClick(View view){
         //TODO change MainActivity to activity that allows user to make new account
-        Intent i = new Intent(this, MainActivity.class);
+        Intent i = new Intent(this, AccountItemCreator.class);
         startActivityForResult(i, 10);
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data){
+        super.onActivityResult(requestCode,resultCode,data);
+        //TODO NOTE: the resulting new account item should be sent to database, then refreshed
+        if(resultCode==10 && data.hasExtra("NewAccountItem")){
+            Bundle bundle = data.getExtras();//getIntent().getExtras();
+            AccountItem account = (AccountItem) bundle.getParcelable("NewAccountItem");
+            Log.i("onActivityResult","account received:"+account.getTitle());
+            //TODO MORE HERE
+            viewItemsList.add(account);
+            mAdapter.notifyDataSetChanged(); //do this after?
+        }
     }
 
 }
