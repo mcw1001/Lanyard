@@ -56,7 +56,7 @@ public class AccountItemCreator extends AppCompatActivity {
         numCheck=accountPrefs.getBoolean("numCheck",true);
         symbolCheck=accountPrefs.getBoolean("symbolCheck",false);
         passwordSize=accountPrefs.getInt("passwordSize",10);
-        Log.i(ACTIVITY_NAME,"pullPrefs: upperCheck:"+upperCheck+" lowerCheck:"+lowerCheck+" symbolCheck:"+symbolCheck+" numCheck:"+numCheck+" passwordSize:"+passwordSize);
+//        Log.i(ACTIVITY_NAME,"pullPrefs: upperCheck:"+upperCheck+" lowerCheck:"+lowerCheck+" symbolCheck:"+symbolCheck+" numCheck:"+numCheck+" passwordSize:"+passwordSize);
     }
 
     public void onOK(View view){
@@ -77,7 +77,7 @@ public class AccountItemCreator extends AppCompatActivity {
             Intent data = new Intent();
             data.putExtra("NewAccountItem", account);
             setResult(10,data);
-            Log.i(ACTIVITY_NAME,"new account, Title="+title+" user="+user+" pass="+pass);
+//            Log.i(ACTIVITY_NAME,"new account, Title="+title+" user="+user+" pass="+pass);
             finish();
 
         }
