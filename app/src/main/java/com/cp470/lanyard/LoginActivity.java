@@ -1,10 +1,12 @@
 package com.cp470.lanyard;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -16,21 +18,28 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+
 //import com.google.android.material.snackbar.Snackbar;
 
 public class LoginActivity extends AppCompatActivity {
 
     protected static final String ACTIVITY_NAME = "LoginActivity";
-    static final int NO_CREDENTIALS = -2;
-    static final int INVALID_USERNAME_PASSWORD = -1;
-    static final int NO_STORED_CREDENTIALS=0;
-    static final int VALID_CREDENTIALS=1;
+
+    // [START declare_auth]
+    private FirebaseAuth mAuth;
+    // [END declare_auth]
+    private ProgressDialog mLoadingBar;
 
     Button loginButton;
     Button registerButton;
-    String loginPrefsFileName;
-    EditText usernameMaster;
-    EditText passwordMaster;
+    EditText inputUsernameMaster;
+    EditText inputPasswordMaster;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,140 +48,90 @@ public class LoginActivity extends AppCompatActivity {
 
         loginButton = findViewById(R.id.login_button);
         registerButton = findViewById(R.id.register_button);
-        loginPrefsFileName = getString(R.string.filePrefsName);
-        usernameMaster = findViewById(R.id.editTextEmailAddress);
-        passwordMaster = findViewById(R.id.editTextPassword);
+
+        inputUsernameMaster = findViewById(R.id.editTextEmailAddress);
+        inputPasswordMaster = findViewById(R.id.editTextPassword);
+
+        // [START initialize_auth]
+        // Initialize Firebase Auth
+        mAuth = FirebaseAuth.getInstance();
+        // [END initialize_auth]
+        mLoadingBar = new ProgressDialog(LoginActivity.this);
+
+        registerButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                checkCredentials();
+            }
+        });
+
+        loginButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                login();
+            }
+        });
+
     }
 
-    public void onLoginClicked(View v){
+    private void login() {
+        String usernameMaster = inputUsernameMaster.getText().toString();
+        String passwordMaster = inputPasswordMaster.getText().toString();
 
-        final String username = usernameMaster.getText().toString();
-        //less secure to have string even temp store password but deal with it later
-        final String password = passwordMaster.getText().toString();
+        // check here for password and username empty
 
-        int result=validate(username,password);
-        if(result==INVALID_USERNAME_PASSWORD){
-            //invalid username or password
-            //choosing Toast instead of snackbar to get it from the top?
-            Toast toast = Toast.makeText(this,getResources().getString(R.string.invalidUserPass),Toast.LENGTH_LONG);
-            toast.show();
-//            Snackbar.make(v, getResources().getString(R.string.invalidUserPass),Snackbar.LENGTH_LONG)
-//                    .setAction("Action",null).show();
-        }else if(result==NO_CREDENTIALS){
+        mLoadingBar.setTitle("Login");
+        mLoadingBar.setMessage("Please wait, while we verify your login");
+        mLoadingBar.setCanceledOnTouchOutside(false);
+        mLoadingBar.show();
 
-            Toast toast = Toast.makeText(this,getResources().getString(R.string.emptyUserPassWarning),Toast.LENGTH_LONG);
-            toast.show();
-//            Snackbar.make(v, getResources().getString(R.string.emptyUserPassWarning),Snackbar.LENGTH_LONG)
-//                    .setAction("Action",null).show();
-        }else if(result==NO_STORED_CREDENTIALS){
-            //new account then jump
-//                Boolean newAcc=false;
-            AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
-            builder.setTitle(R.string.noUserAccountAlert);
-            // Add the buttons
-            builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int id) {
-                    createAccount(username,password);
-                    //TODO Jump to MainActivity, decide what activity is the actual main activity
+        mAuth.signInWithEmailAndPassword(usernameMaster, passwordMaster).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if (task.isSuccessful()){
+                    Toast.makeText(LoginActivity.this, "You are logged in!", Toast.LENGTH_SHORT);
+                    mLoadingBar.dismiss();
                     Intent intent = new Intent(LoginActivity.this, AccountListActivity.class);
+                    // so you cannot go back to login screen
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
+
                 }
-            });
-            builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int id) {
-                    // User cancelled the dialog
-                }
-            });
-            // Create the AlertDialog
-            AlertDialog dialog = builder.create();
-            dialog.show();
-//                if(newAcc){
-//                createAccount(username,password);}else{
-//                    return;
-//                }
-        }else{
-            //TODO welcome message?
-            Intent intent = new Intent(LoginActivity.this, AccountListActivity.class);
-            startActivity(intent);
-        }
-    }
-
-    //context.getSharedPreferences("YOUR_PREFS", 0).edit().clear().commit(); //remove all your prefs :)
-
-    private int validate(String u, String p){//, View v){
-        //First case, username or password entered is empty
-        if(u.equals("") || p.equals("")){
-            return NO_CREDENTIALS;
-        }
-
-        SharedPreferences loginPrefs = getSharedPreferences(loginPrefsFileName, MODE_PRIVATE);
-//            SharedPreferences.Editor prefEdit = loginPrefs.edit();
-        String storedUser = loginPrefs.getString("CurrentUsername","noUser");
-        String storedPass = loginPrefs.getString("CurrentPassword","noPass");
-        //no user exists, create one
-        Log.d("validate Function","storedUser="+storedUser+", storedPass="+storedPass);
-        assert storedUser != null;
-        assert storedPass != null;//should always have a non-null return, specificalyl "noPass" and "noUser"
-        if(storedUser.equals("noUser") || storedPass.equals("noPass")) {
-            return NO_STORED_CREDENTIALS;
-        }else if (storedUser.equals(u) && storedPass.equals(p)){ //valid credentials, allowed in
-            return VALID_CREDENTIALS;
-        }else{ //Invalid combo, not equal, not new, not empty
-            return INVALID_USERNAME_PASSWORD;
-        }
-    }
-
-    /*
-    Developer feature to make it easy to test the default state in early iterations
-    Remove when necessary
-     */
-    @SuppressLint("ApplySharedPref")
-    public void onClickDeveloperReset(View v){
-        SharedPreferences prefs = getSharedPreferences(loginPrefsFileName,MODE_PRIVATE);
-        SharedPreferences.Editor prefEdit = prefs.edit();
-        prefEdit.clear().commit();//commit clear immediately
-        Toast toast = Toast.makeText(this,"Login Credentials Reset",Toast.LENGTH_SHORT);
-        toast.show();
-    }
-
-    private void createAccount(String username, String password){
-        SharedPreferences loginPrefs = getSharedPreferences(loginPrefsFileName, MODE_PRIVATE);
-        SharedPreferences.Editor prefEdit = loginPrefs.edit();
-        prefEdit.clear();
-        prefEdit.putString("CurrentUsername",username);
-        prefEdit.putString("CurrentPassword",password);
-        prefEdit.apply(); //using .apply() instead of .commit(), apply runs in background, commit writes immediately
-    }
-    public void onRegisterClicked(final View v){
-        final String username = usernameMaster.getText().toString();
-        //less secure to have string even temp store password but deal with it later
-        final String password = passwordMaster.getText().toString();
-        AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
-        builder.setTitle(R.string.registerAlertTitle);
-        // Add the buttons
-        builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                // User clicked OK button
-                if(validate(username,password)>-2){
-                    createAccount(username,password);
-                    //TODO jump to main activity
-                    Intent intent = new Intent(LoginActivity.this, AccountListActivity.class);
-                    startActivity(intent);
-                }else{
-                    Toast toast = Toast.makeText(LoginActivity.this,getResources().getString(R.string.invalidUserPass),Toast.LENGTH_LONG);
-                    toast.show();
+                else{
+                    Toast.makeText(LoginActivity.this, task.getException().toString(), Toast.LENGTH_SHORT);
                 }
             }
         });
-        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                // User cancelled the dialog
+    }
+
+    private void checkCredentials() {
+        String usernameMaster = inputUsernameMaster.getText().toString();
+        String passwordMaster = inputPasswordMaster.getText().toString();
+
+        // check here for password and username empty
+
+        mLoadingBar.setTitle("Login");
+        mLoadingBar.setMessage("Please wait, while we create your account");
+        mLoadingBar.setCanceledOnTouchOutside(false);
+        mLoadingBar.show();
+
+        mAuth.createUserWithEmailAndPassword(usernameMaster, passwordMaster).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if (task.isSuccessful()){
+                    Toast.makeText(LoginActivity.this, "Your account was created", Toast.LENGTH_SHORT);
+
+                    Intent intent = new Intent(LoginActivity.this, AccountListActivity.class);
+                    // so you cannot go back to login screen
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                }
+                else{
+                    Toast.makeText(LoginActivity.this, task.getException().toString(), Toast.LENGTH_SHORT);
+                }
             }
         });
-        // Create the AlertDialog
-        AlertDialog dialog = builder.create();
-        dialog.show();
     }
+
+
     @Override
     protected void onResume(){
         super.onResume();

@@ -11,8 +11,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 
@@ -22,6 +25,12 @@ public class AccountListActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private AccountListAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
+
+    // For Firebase user logout
+    //------------------------------------
+    Button logoutButton;
+    FirebaseAuth mAuth;
+    //------------------------------------
 
     ArrayList<AccountItem> viewItemsList;
 
@@ -41,6 +50,24 @@ public class AccountListActivity extends AppCompatActivity {
         mAdapter = new AccountListAdapter(viewItemsList);//pass item object list
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
+
+        // For Firebase user logout
+        //------------------------------------
+        logoutButton = findViewById(R.id.logoutMaster);
+        mAuth = FirebaseAuth.getInstance();
+        logoutButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                mAuth.signOut();
+                Intent intent = new Intent(AccountListActivity.this, LoginActivity.class);
+                // so you cannot go back to login screen
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                Toast.makeText(AccountListActivity.this, "You are logged out!", Toast.LENGTH_SHORT);
+            }
+        });
+        //------------------------------------
+
+
         mAdapter.setOnItemClickListener(new AccountListAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
