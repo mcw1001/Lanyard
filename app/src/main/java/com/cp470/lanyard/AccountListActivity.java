@@ -64,7 +64,8 @@ public class AccountListActivity extends AppCompatActivity {
         Log.i("handleCardClick", "handleCardClick: password is "+pass);
 
         //TODO pass account object to detail view actvity
-        //use intent
+        Intent i = new Intent(this, AccountDetailActivity.class);
+        startActivity(i);
 
 
 
