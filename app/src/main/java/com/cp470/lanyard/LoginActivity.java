@@ -118,7 +118,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()){
                     Toast.makeText(LoginActivity.this, "Your account was created", Toast.LENGTH_SHORT);
-
+                    mLoadingBar.dismiss();
                     Intent intent = new Intent(LoginActivity.this, AccountListActivity.class);
                     // so you cannot go back to login screen
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
