@@ -11,30 +11,26 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.firebase.firestore.DocumentSnapshot;
 
 import java.util.ArrayList;
 
-public class AccountListAdapter extends FirestoreRecyclerAdapter<AccountItem,AccountListAdapter.AccountViewHolder> {
-    private ArrayList<AccountItem> mAccountList;
+public class AccountListAdapter extends FirestoreRecyclerAdapter<AccountItem, AccountListAdapter.AccountViewHolder> {
     private OnItemClickListener mListener;
 
-    /**
-     * Create a new RecyclerView adapter that listens to a Firestore Query.  See {@link
-     * FirestoreRecyclerOptions} for configuration options.
-     *
-     * @param options
-     */
     public AccountListAdapter(@NonNull FirestoreRecyclerOptions<AccountItem> options) {
         super(options);
     }
 
-    public interface  OnItemClickListener{
-        void onItemClick(int position);
+    public interface OnItemClickListener {
+        void onItemClick(DocumentSnapshot documentSnapshot, int position);
     }
-    public void setOnItemClickListener(OnItemClickListener listener){
-        mListener=listener;
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.mListener = listener;
     }
-    public static class AccountViewHolder extends RecyclerView.ViewHolder{
+
+    public class AccountViewHolder extends RecyclerView.ViewHolder {
         public ImageView iconView;
         public TextView accountTitleView;
         public TextView passView;
@@ -52,10 +48,10 @@ public class AccountListAdapter extends FirestoreRecyclerAdapter<AccountItem,Acc
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(listener!=null){//need listener to call method
+                    if (listener != null) {//need listener to call method
                         int position = getAdapterPosition();
-                        if (position != RecyclerView.NO_POSITION){//make sure card not deleted
-                            listener.onItemClick(position);//get pistion of card in recyclerView and pass to interface
+                        if (position != RecyclerView.NO_POSITION && listener != null) {//make sure card is not -1 position and listener is not null
+                            listener.onItemClick(getSnapshots().getSnapshot(position), position);
                         }
                     }
                 }
@@ -67,8 +63,8 @@ public class AccountListAdapter extends FirestoreRecyclerAdapter<AccountItem,Acc
     @NonNull
     @Override
     public AccountViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.account_item,parent,false);
-        AccountViewHolder avh = new AccountViewHolder(v,mListener);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.account_item, parent, false);
+        AccountViewHolder avh = new AccountViewHolder(v, mListener);
         return avh;
     }
 
@@ -80,8 +76,16 @@ public class AccountListAdapter extends FirestoreRecyclerAdapter<AccountItem,Acc
         holder.passView.setText(model.getPassword());
     }
 
-//    @Override
-//    public int getItemCount() {
-//        return mAccountList.size();
-//    }
+    public void deleteAccountItem(int position) {
+        /**
+         -------------------------------------------------------
+         Required for an AccountItem delete in the Firebase
+         Firestore.
+         -------------------------------------------------------
+         Parameters:
+         int position - The position of the item to be deleted
+         -------------------------------------------------------
+         */
+        getSnapshots().getSnapshot(position).getReference().delete();
+    }
 }

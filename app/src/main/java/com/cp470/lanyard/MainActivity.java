@@ -30,13 +30,11 @@ public class MainActivity extends AppCompatActivity {
     // Firebase stuff
     private FirebaseAuth mAuth;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
-    private DocumentReference accountItemRef = db.document("Accounts/My First Account");
 
     private EditText editTextAccountTitle;
     private EditText editTextAccountUserName;
     private EditText editTextAccountPassword;
 
-    private String userIdMaster;
     private int imageResource;// resource int for icon in list view
 
 
@@ -52,17 +50,29 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void savePassword(android.view.View view) {
+        /**
+         -------------------------------------------------------
+         Saves a AccountItem to the Firebase Firestore db
+         -------------------------------------------------------
+         Parameters:
+         view - a view item
+         -------------------------------------------------------
+         */
 
         String accountTitle = editTextAccountTitle.getText().toString();
         String accountUserName = editTextAccountUserName.getText().toString();
         String accountPassword = editTextAccountPassword.getText().toString();
 
         FirebaseUser currentUser = mAuth.getInstance().getCurrentUser();
-        //String timestamp = FieldValue.serverTimestamp().toString();
+
+        //FIXME String timestamp = FieldValue.serverTimestamp().toString();
+        // - either by figuring out how to serialize FieldValues or just replace with a string timestamp
+
+        //TODO change imageResource to a image file
         int imageResource = 0;
         AccountItem accountItem = new AccountItem(currentUser, imageResource, accountTitle, accountUserName, accountPassword);
 
-// Add a new document with a generated ID
+        // Add a new document with a generated ID
         db.collection("accounts")
                 .add(accountItem)
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
@@ -77,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
                         Log.w(TAG, "Error adding document", e);
                     }
                 });
-        Toast.makeText(MainActivity.this, "Password Stored", Toast.LENGTH_SHORT);
+        Toast.makeText(MainActivity.this, "Password Stored", Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(MainActivity.this, AccountListActivity.class);
         // so you cannot go back to login screen
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);

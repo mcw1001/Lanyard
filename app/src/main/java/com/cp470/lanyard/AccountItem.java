@@ -7,19 +7,38 @@ import com.google.firebase.firestore.FieldValue;
 
 import java.time.LocalDateTime; // import the LocalDateTime class
 
-/*
-This class stores account info such as title, user name, password etc. in object
- */
+
 public class AccountItem {
+    /**
+     -------------------------------------------------------
+     This class stores account info such as:
+     - imageResource
+        An icon of the account type
+     - title
+        The title of the account (eg. mylearningspace)
+     - userName
+        The userName of the account
+     - password
+        The password if the account
+     - userIdMaster
+        The unique Firebase Auth ID of the account this
+        password belongs too
+     - timestamp
+        A time stamp from the Firebase server or client
+        device
+     -------------------------------------------------------
+     */
+
     private int imageResource;// resource int for icon in list view
     private String title;
     private String userName;
     private String password;
     private String userIdMaster;
-    //private String timestamp;
+    //FIXME private String timestamp;
 
     public AccountItem() {
-        //public no-arg constructor needed for firestore ¯\_(ツ)_/¯
+        //public no-arg constructor needed for Firestore ¯\_(ツ)_/¯
+        //See google docs if you want to learn more
     }
 
     public AccountItem(FirebaseUser userIdMaster, int imageResource, String title, String userName, String password) {
@@ -28,7 +47,7 @@ public class AccountItem {
         this.title = title;
         this.userName = userName;
         this.password = password;
-        //this.timestamp = timestamp;
+        //FIXME this.timestamp = timestamp;
     }
 
     public int getImageResource() {
@@ -71,24 +90,14 @@ public class AccountItem {
         this.userIdMaster = userIdMaster;
     }
 
+//FIXME
 //    public String getTimestamp() {
 //        return timestamp;
 //    }
-//
+
+//FIXME
 //    public void setTimestamp(String timestamp) {
 //        this.timestamp = timestamp;
-//    }
-
-//    @NonNull
-//    @Override
-//    public String toString() {
-//        return "AccountItem{" +
-//                "title='" + title + '\'' +
-//                ", userIdMaster='" + userIdMaster + '\'' +
-//                ", userName='" + userName + '\'' +
-//                ", password='" + password + '\'' +
-//                ", timestamp=" + timestamp.toString() +
-//                '}';
 //    }
 
 }
