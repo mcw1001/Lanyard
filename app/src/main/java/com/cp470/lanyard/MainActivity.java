@@ -16,31 +16,16 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.ServerTimestamp;
 import com.google.firebase.firestore.core.View;
 
-import java.time.LocalDateTime; // import the LocalDateTime class
 import java.util.HashMap;
 import java.util.Map;
 
-
-//
-//    private int imageResource;// resource int for icon in list view
-//    private String title;
-//    private String userName;
-//    private String password;
-//    private String userIdMaster;
-//    private @ServerTimestamp Date timestamp;
-
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
-
-    private static final String KEY_IMAGERESOURCE = "imageResource";// resource int for icon in list view
-    private static final String KEY_ACCOUNTTITLE = "accountTitle";
-    private static final String KEY_ACCOUNTUSERNAME = "accountUserName";
-    private static final String KEY_ACCOUNTPASSWORD = "accountPassword";
-    private static final String KEY_USERIDMASTER = "userIdMaster";
-    private static final String KEY_TIMESTAMP = "timestamp";
 
     // Firebase stuff
     private FirebaseAuth mAuth;
@@ -65,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
         editTextAccountPassword = findViewById(R.id.edit_text_account_password);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
+
     public void savePassword(android.view.View view) {
 
         String accountTitle = editTextAccountTitle.getText().toString();
@@ -73,9 +58,9 @@ public class MainActivity extends AppCompatActivity {
         String accountPassword = editTextAccountPassword.getText().toString();
 
         FirebaseUser currentUser = mAuth.getInstance().getCurrentUser();
+        //String timestamp = FieldValue.serverTimestamp().toString();
         int imageResource = 0;
-        LocalDateTime timestamp = LocalDateTime.now();
-        AccountItem accountItem = new AccountItem(currentUser, imageResource, accountTitle, accountUserName, accountPassword, timestamp);
+        AccountItem accountItem = new AccountItem(currentUser, imageResource, accountTitle, accountUserName, accountPassword);
 
 // Add a new document with a generated ID
         db.collection("accounts")

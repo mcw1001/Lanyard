@@ -15,16 +15,30 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 
 import java.util.ArrayList;
 
 
 
 public class AccountListActivity extends AppCompatActivity {
-    private RecyclerView mRecyclerView;
+//    private RecyclerView mRecyclerView;
+//
+//    private RecyclerView.LayoutManager mLayoutManager;
+
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private static final CollectionReference accountRef = FirebaseFirestore.getInstance().collection("accounts");
     private AccountListAdapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
+
+    static {
+        FirebaseFirestore.setLoggingEnabled(true);
+    }
 
     // For Firebase user logout
     //------------------------------------
@@ -38,18 +52,8 @@ public class AccountListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account_list);
-
-        viewItemsList= new ArrayList<AccountItem>();
-
-        //loadItemList();//load viewItemsList from database
-
-        //initializes all parts needed for addapter class
-        mRecyclerView=findViewById(R.id.accountListRecyclerView);
-        mRecyclerView.setHasFixedSize(true);//needed to increase performance
-        mLayoutManager = new LinearLayoutManager(this);
-        mAdapter = new AccountListAdapter(viewItemsList);//pass item object list
-        mRecyclerView.setLayoutManager(mLayoutManager);
-        mRecyclerView.setAdapter(mAdapter);
+        
+        setUpRecyclerView();
 
         // For Firebase user logout
         //------------------------------------
@@ -77,6 +81,35 @@ public class AccountListActivity extends AppCompatActivity {
         });
     }
 
+    private void setUpRecyclerView() {
+        String currentUser = mAuth.getInstance().getCurrentUser().getUid();
+        Query query = accountRef.whereEqualTo("userIdMaster", currentUser);
+
+        FirestoreRecyclerOptions<AccountItem> options = new FirestoreRecyclerOptions.Builder<AccountItem>()
+                .setQuery(query, AccountItem.class)
+                .build();
+        mAdapter = new AccountListAdapter(options);
+
+        RecyclerView recyclerView = findViewById(R.id.accountListRecyclerView);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(mAdapter);
+    }
+
+    @Override
+    protected void onStart(){
+        super.onStart();
+        //start listening for firestore db changes
+        mAdapter.startListening();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        //stop listening for firestore db changes
+        mAdapter.stopListening();
+    }
+
     private void handleCardClick(int postion){
         AccountItem account = viewItemsList.get(postion);//get item at same position as card clicked\
         String title = account.getTitle();
@@ -96,23 +129,7 @@ public class AccountListActivity extends AppCompatActivity {
 
 
     }
-//    private void loadItemList(){
-//        //TODO load viewItemsList from database or file storage system
-//
-//        //for now just manually add items to arraylist
-//        //load array list
-//        viewItemsList.add(new AccountItem(R.drawable.ic_baseline_mail_24,"Fake Mail","jeffBob@fake.com","fyt6fygt7ygy76yg"));
-//        viewItemsList.add(new AccountItem(R.drawable.placeholder,"Twitter","@Jbob4232","juhbjnhgbgyhub"));
-//        viewItemsList.add(new AccountItem(R.drawable.placeholder,"Facebook","Jeff Bob","Idontcare124"));
-//        viewItemsList.add(new AccountItem(R.drawable.list_icon3,"Fake R'us bank","565-48-0350","loooooooooooooooooooooongggPassword"));//35 chars
-//        viewItemsList.add(new AccountItem(R.drawable.placeholder,"Xbox X","jeffIsTheBest","password"));
-//        viewItemsList.add(new AccountItem(R.drawable.placeholder,"PS5","jeffIsTheBest","passwordPS5"));
-//        viewItemsList.add(new AccountItem(R.drawable.placeholder,"Steam","PC_OVERLORDjeff","passwordPC"));
-//        viewItemsList.add(new AccountItem(R.drawable.placeholder,"Epic","PC_OVERLORDjeff","IhateApple"));
-//        viewItemsList.add(new AccountItem(R.drawable.placeholder,"wlu","bobx9090","CP340"));
-//
-//    }
-    
+
     //copies password to clipboard
     public void onCopyClick(View view){
 
