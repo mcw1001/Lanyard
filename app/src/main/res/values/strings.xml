@@ -5,6 +5,9 @@
     <string name="listPassTitle">Password:</string>
     <string name="copyMsg"> password copied to clipboard</string>
 
+
+    <!--    LIST  ACTIVITY STRINGS      -->
+    <string name="hintAccountList">Search for an account</string>
     <!--     LIST MENU AND DIALOG -->
 
     <string name="menuSortTitle">Sort</string>
