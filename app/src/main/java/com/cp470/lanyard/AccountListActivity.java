@@ -117,7 +117,7 @@ public class AccountListActivity extends AppCompatActivity {
         //stop listening for firestore db changes
         mAdapter.stopListening();
     }
-
+    /*
     public void onCopyClick(View view) {
 
         View card = (View) view.getParent();
@@ -138,7 +138,7 @@ public class AccountListActivity extends AppCompatActivity {
         Toast toast = Toast.makeText(this, copyMessage, Toast.LENGTH_SHORT);
         toast.show(); //display your message box
     }
-
+    */
     public void onNewAccountClick(View view) {
         /**
          -------------------------------------------------------
