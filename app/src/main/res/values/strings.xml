@@ -1,8 +1,66 @@
 <resources>
+
     <string name="app_name">Lanyard</string>
     <string name="listUserTitle">User Name:</string>
     <string name="listPassTitle">Password:</string>
     <string name="copyMsg"> password copied to clipboard</string>
+
+    <!--     LIST MENU AND DIALOG -->
+
+    <string name="menuSortTitle">Sort</string>
+    <string name="menuHelpTitle">Help</string>
+    <string name="menuInfoTitle">Info</string>
+    <string name="menuLogoutTitle">Log out</string>
+    <string name="menuPopSortTitle">Sort by</string>
+
+
+    <string-array name="sortOptions">
+        <item>By account name (A-Z)</item>
+        <item>By account name (Z-A)</item>
+        <item>By user name (A-Z)</item>
+        <item>By user name (Z-A)</item>
+        <item>By date changed (new-old)</item>
+        <item>By date changed (old-new)</item>
+
+    </string-array>
+
+    <!-- INFO BOX TEXT -->
+    <!-- Just took names from FB please change your to the proper name you want on the project -->
+    <!-- each item is new line, / is a tab -->
+    <string-array name="infoBoxText">
+        <item>App name: Lanyard</item>
+        <item>Version: V2.0</item>
+        <item>--</item>
+        <item>App Developer team (authors):</item>
+        <item>/James Robertson</item>
+        <item>/Morgenne Besenschek</item>
+        <item>/Mike Jones</item>
+        <item>/Asad Abbas</item>
+        <item>/Amardeep Sarang</item>
+    </string-array>
+
+    <string-array name="helpBoxText">
+        <item>How to copy password to clipboard</item>
+        <item>/- Long press the account item card you want to copy.</item>
+        <item>--</item>
+        <item>How to add new Account to list:</item>
+        <item>/1. Press (+) button.</item>
+        <item>/2. Enter username and website name.</item>
+        <item>/3. Enter password or tap generate password to have one auto generated.</item>
+        <item>/3a. Tap wrench to change password generation settings such as length.</item>
+        <item>/4. Tap ok</item>
+        <item>--</item>
+        <item>How to sort:</item>
+        <item>/1. Tap the sort button in toolbar</item>
+        <item>/2. Select an option you want to sort by.</item>
+        <item>/3. Tap ok to close dialog box.</item>
+        <item>--</item>
+        <item>How to see account details:</item>
+        <item>/- Tap the account item card to go to detail page.</item>
+    </string-array>
+
+
+
     <!--    LOGIN ACTIVITY STRINGS      -->
     <string name="loginBtn">login</string>
     <string name="registerBtn">register</string>
@@ -31,4 +89,5 @@
     <string name="alertTitle">ATTENTION</string>
 
     <!--  ^^^ Alert Dialogs  ^^^    -->
+
 </resources>
