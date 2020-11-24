@@ -13,10 +13,9 @@ import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.firestore.DocumentSnapshot;
 
-import java.util.ArrayList;
-
 public class AccountListAdapter extends FirestoreRecyclerAdapter<AccountItem, AccountListAdapter.AccountViewHolder> {
     private OnItemClickListener mListener;
+    private OnItemLongClickListener mLongListener;
 
     public AccountListAdapter(@NonNull FirestoreRecyclerOptions<AccountItem> options) {
         super(options);
@@ -26,8 +25,16 @@ public class AccountListAdapter extends FirestoreRecyclerAdapter<AccountItem, Ac
         void onItemClick(DocumentSnapshot documentSnapshot, int position);
     }
 
+    public interface OnItemLongClickListener {
+        void onItemLongClick(DocumentSnapshot documentSnapshot, int position);
+    }
+
     public void setOnItemClickListener(OnItemClickListener listener) {
         this.mListener = listener;
+    }
+
+    public void setOnItemLongClickListener(OnItemLongClickListener longListener) {
+        this.mLongListener = longListener;
     }
 
     public class AccountViewHolder extends RecyclerView.ViewHolder {
@@ -36,7 +43,7 @@ public class AccountListAdapter extends FirestoreRecyclerAdapter<AccountItem, Ac
         public TextView passView;
         public TextView uNameView;
 
-        public AccountViewHolder(@NonNull View itemView, final OnItemClickListener listener) {
+        public AccountViewHolder(@NonNull View itemView, final OnItemClickListener listener, final OnItemLongClickListener longListener) {
             super(itemView);
             //get all views from item layout
             iconView = itemView.findViewById(R.id.iconAccountItem);
@@ -56,6 +63,20 @@ public class AccountListAdapter extends FirestoreRecyclerAdapter<AccountItem, Ac
                     }
                 }
             });
+
+            itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    if (longListener != null) {//need listener to call method
+                        int position = getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION && longListener != null) {//make sure card is not -1 position and listener is not null
+                            longListener.onItemLongClick(getSnapshots().getSnapshot(position), position);
+                        }
+                    }
+                    return true;
+                }
+            });
+
         }
     }
 
@@ -64,7 +85,7 @@ public class AccountListAdapter extends FirestoreRecyclerAdapter<AccountItem, Ac
     @Override
     public AccountViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.account_item, parent, false);
-        AccountViewHolder avh = new AccountViewHolder(v, mListener);
+        AccountViewHolder avh = new AccountViewHolder(v, mListener, mLongListener);
         return avh;
     }
 

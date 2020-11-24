@@ -94,6 +94,15 @@ public class AccountListActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        mAdapter.setOnItemLongClickListener(new AccountListAdapter.OnItemLongClickListener() {
+            @Override
+            public void onItemLongClick(DocumentSnapshot documentSnapshot, int position) {
+                AccountItem accountItem = documentSnapshot.toObject(AccountItem.class); //the name of the item in the db
+                onCopyClick(accountItem.getTitle(), accountItem.getPassword());
+            }
+        });
+
     }
 
     @Override
@@ -110,15 +119,15 @@ public class AccountListActivity extends AppCompatActivity {
         mAdapter.stopListening();
     }
 
-    public void onCopyClick(View view) {
+    public void onCopyClick(String title, String password) {
 
-        View card = (View) view.getParent();
+        //View card = (View) view.getParent();
         //get title of account
-        TextView titleView = (TextView) card.findViewById(R.id.titleAccountItem);
-        String title = titleView.getText().toString();
+        //TextView titleView = (TextView) card.findViewById(R.id.titleAccountItem);
+        //String title = titleView.getText().toString();
         //get password
-        TextView passView = (TextView) card.findViewById(R.id.passAccountItem);
-        String password = passView.getText().toString();
+        //TextView passView = (TextView) card.findViewById(R.id.passAccountItem);
+        //String password = passView.getText().toString();
 
         //copy to clipboard
         ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
