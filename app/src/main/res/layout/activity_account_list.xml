@@ -22,4 +22,12 @@
         android:backgroundTint="@color/keyYellowAccentColor"
         app:fabSize="normal"
         android:onClick="onNewAccountClick"/>
+
+    <Button
+        android:id="@+id/logoutMaster"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:text="Logout"
+        android:onClick="logout"/>
 </FrameLayout>

@@ -1,6 +1,8 @@
 package com.cp470.lanyard;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -11,108 +13,152 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 
 import java.util.ArrayList;
 
 
-
 public class AccountListActivity extends AppCompatActivity {
-    private RecyclerView mRecyclerView;
-    private AccountListAdapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
 
-    ArrayList<AccountItem> viewItemsList;
+    private static final CollectionReference accountRef = FirebaseFirestore.getInstance().collection("accounts");
+    private AccountListAdapter mAdapter;
+
+
+    static {
+        FirebaseFirestore.setLoggingEnabled(true);
+    }
+
+    // For Firebase user logout
+    //------------------------------------
+    FirebaseAuth mAuth;
+    //------------------------------------
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account_list);
 
-        viewItemsList= new ArrayList<AccountItem>();
+        setUpRecyclerView();
+    }
 
-        loadItemList();//load viewItemsList from database
+    private void setUpRecyclerView() {
+        /**
+         -------------------------------------------------------
+         Sets up the recyclerView using Firebase Firestore UI.
+         -------------------------------------------------------
+         */
+        String currentUser = mAuth.getInstance().getCurrentUser().getUid();
+        Query query = accountRef.whereEqualTo("userIdMaster", currentUser);
 
-        //initializes all parts needed for addapter class
-        mRecyclerView=findViewById(R.id.accountListRecyclerView);
-        mRecyclerView.setHasFixedSize(true);//needed to increase performance
-        mLayoutManager = new LinearLayoutManager(this);
-        mAdapter = new AccountListAdapter(viewItemsList);//pass item object list
-        mRecyclerView.setLayoutManager(mLayoutManager);
-        mRecyclerView.setAdapter(mAdapter);
+        FirestoreRecyclerOptions<AccountItem> options = new FirestoreRecyclerOptions.Builder<AccountItem>()
+                .setQuery(query, AccountItem.class)
+                .build();
+        mAdapter = new AccountListAdapter(options);
+
+        RecyclerView recyclerView = findViewById(R.id.accountListRecyclerView);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(mAdapter);
+
+        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,
+                ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                mAdapter.deleteAccountItem(viewHolder.getAdapterPosition());
+            }
+        }).attachToRecyclerView(recyclerView);
         mAdapter.setOnItemClickListener(new AccountListAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(int position) {
-                //handle click on card item pass position of card clicked from RecyclerView adapter
-                handleCardClick(position);
+            public void onItemClick(DocumentSnapshot documentSnapshot, int position) {
+                String documentId = documentSnapshot.getId(); //the name of the item in the db
+                System.out.println(documentId);
+                Toast.makeText(AccountListActivity.this, "click", Toast.LENGTH_SHORT);
+                Intent intent = new Intent(AccountListActivity.this, AccountListItemDetailView.class);
+                intent.putExtra("documentId", documentId);
+                startActivity(intent);
             }
         });
     }
 
-    private void handleCardClick(int postion){
-        AccountItem account = viewItemsList.get(postion);//get item at same position as card clicked\
-        String title = account.getTitle();
-        String uName = account.getUserName();
-        String pass = account.getPassword();
-
-        //TEMPORARY print to log and toast
-        String clickMessage=title+" clicked";
-        Toast toast = Toast.makeText(this , clickMessage, Toast.LENGTH_SHORT);
-        toast.show(); //display your message box
-        Log.i("handleCardClick", "handleCardClick: user name is "+uName);
-        Log.i("handleCardClick", "handleCardClick: password is "+pass);
-
-        //TODO pass account object to detail view actvity
-        //use intent
-
-
-
+    @Override
+    protected void onStart() {
+        super.onStart();
+        //start listening for firestore db changes
+        mAdapter.startListening();
     }
-    private void loadItemList(){
-        //TODO load viewItemsList from database or file storage system
 
-        //for now just manually add items to arraylist
-        //load array list
-        viewItemsList.add(new AccountItem(R.drawable.ic_baseline_mail_24,"Fake Mail","jeffBob@fake.com","fyt6fygt7ygy76yg"));
-        viewItemsList.add(new AccountItem(R.drawable.placeholder,"Twitter","@Jbob4232","juhbjnhgbgyhub"));
-        viewItemsList.add(new AccountItem(R.drawable.placeholder,"Facebook","Jeff Bob","Idontcare124"));
-        viewItemsList.add(new AccountItem(R.drawable.list_icon3,"Fake R'us bank","565-48-0350","loooooooooooooooooooooongggPassword"));//35 chars
-        viewItemsList.add(new AccountItem(R.drawable.placeholder,"Xbox X","jeffIsTheBest","password"));
-        viewItemsList.add(new AccountItem(R.drawable.placeholder,"PS5","jeffIsTheBest","passwordPS5"));
-        viewItemsList.add(new AccountItem(R.drawable.placeholder,"Steam","PC_OVERLORDjeff","passwordPC"));
-        viewItemsList.add(new AccountItem(R.drawable.placeholder,"Epic","PC_OVERLORDjeff","IhateApple"));
-        viewItemsList.add(new AccountItem(R.drawable.placeholder,"wlu","bobx9090","CP340"));
-        
+    @Override
+    protected void onStop() {
+        super.onStop();
+        //stop listening for firestore db changes
+        mAdapter.stopListening();
     }
-    
-    //copies password to clipboard
-    public void onCopyClick(View view){
 
-        View card=(View) view.getParent();
+    public void onCopyClick(View view) {
+
+        View card = (View) view.getParent();
         //get title of account
-        TextView titleView=(TextView) card.findViewById(R.id.titleAccountItem);
-        String title=titleView.getText().toString();
+        TextView titleView = (TextView) card.findViewById(R.id.titleAccountItem);
+        String title = titleView.getText().toString();
         //get password
-        TextView passView = (TextView)card.findViewById(R.id.passAccountItem);
+        TextView passView = (TextView) card.findViewById(R.id.passAccountItem);
         String password = passView.getText().toString();
 
         //copy to clipboard
         ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-        ClipData clip = ClipData.newPlainText(title+" password",password);
+        ClipData clip = ClipData.newPlainText(title + " password", password);
         clipboard.setPrimaryClip(clip);
 
         //print message it toast
-        String copyMessage=title+" "+getString(R.string.copyMsg);
-        Toast toast = Toast.makeText(this , copyMessage, Toast.LENGTH_SHORT);
+        String copyMessage = title + " " + getString(R.string.copyMsg);
+        Toast toast = Toast.makeText(this, copyMessage, Toast.LENGTH_SHORT);
         toast.show(); //display your message box
-
     }
 
-    public void onNewAccountClick(View view){
-        //TODO change MainActivity to activity that allows user to make new account
+    public void onNewAccountClick(View view) {
+        /**
+         -------------------------------------------------------
+         Triggers an AccountItem create intent
+         -------------------------------------------------------
+         Parameters:
+         View view - a view
+         -------------------------------------------------------
+         */
         Intent i = new Intent(this, MainActivity.class);
         startActivityForResult(i, 10);
     }
 
+    public void logout(View view) {
+        /**
+         -------------------------------------------------------
+         Logs a user out of the app using Firebase Auth
+         -------------------------------------------------------
+         Parameters:
+         View view - a view
+         -------------------------------------------------------
+         */
+        mAuth = FirebaseAuth.getInstance();
+        mAuth.signOut();
+        Intent intent = new Intent(AccountListActivity.this, LoginActivity.class);
+        // so you cannot go back to login screen
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+        Toast.makeText(AccountListActivity.this, "You are logged out!", Toast.LENGTH_SHORT).show();
+    }
 }

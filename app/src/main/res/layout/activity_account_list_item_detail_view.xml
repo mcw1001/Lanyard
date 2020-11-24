@@ -6,10 +6,9 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="16dp"
-    tools:context=".MainActivity">
-
+    tools:context=".AccountListItemDetailView">
     <EditText
-        android:id="@+id/edit_text_account_title"
+        android:id="@+id/edit_text_account_title_DETAILVIEW"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Account Title"
@@ -17,7 +16,7 @@
         android:imeOptions="actionDone"/>
 
     <EditText
-        android:id="@+id/edit_text_account_userName"
+        android:id="@+id/edit_text_account_userName_DETAILVIEW"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="User Name/Email"
@@ -25,7 +24,7 @@
         android:imeOptions="actionDone"/>
 
     <EditText
-        android:id="@+id/edit_text_account_password"
+        android:id="@+id/edit_text_account_password_DETAILVIEW"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="password"
@@ -35,8 +34,7 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Store Password"
-        android:onClick="savePassword"/>
+        android:text="Update/Edit"
+        android:onClick="editPassword"/>
 
 </LinearLayout>
-
