@@ -40,7 +40,7 @@ public class AccountListAdapter extends FirestoreRecyclerAdapter<AccountItem, Ac
     public class AccountViewHolder extends RecyclerView.ViewHolder {
         public ImageView iconView;
         public TextView accountTitleView;
-        public TextView passView;
+        //public TextView passView;
         public TextView uNameView;
 
         public AccountViewHolder(@NonNull View itemView, final OnItemClickListener listener, final OnItemLongClickListener longListener) {
@@ -48,7 +48,7 @@ public class AccountListAdapter extends FirestoreRecyclerAdapter<AccountItem, Ac
             //get all views from item layout
             iconView = itemView.findViewById(R.id.iconAccountItem);
             accountTitleView = itemView.findViewById(R.id.titleAccountItem);
-            passView = itemView.findViewById(R.id.passAccountItem);
+            //passView = itemView.findViewById(R.id.passAccountItem);
             uNameView = itemView.findViewById(R.id.userNameAccountItem);
 
 
@@ -94,7 +94,7 @@ public class AccountListAdapter extends FirestoreRecyclerAdapter<AccountItem, Ac
         //holder.iconView.setImageResource(model.getImageResource());
         holder.accountTitleView.setText(model.getTitle());
         holder.uNameView.setText(model.getUserName());
-        holder.passView.setText(model.getPassword());
+        //holder.passView.setText(model.getPassword());
     }
 
     public void deleteAccountItem(int position) {

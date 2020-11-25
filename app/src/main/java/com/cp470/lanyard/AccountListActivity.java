@@ -1,6 +1,7 @@
 package com.cp470.lanyard;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -9,9 +10,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -33,6 +39,7 @@ public class AccountListActivity extends AppCompatActivity {
 
     private static final CollectionReference accountRef = FirebaseFirestore.getInstance().collection("accounts");
     private AccountListAdapter mAdapter;
+    private int checkedItem;
 
 
     static {
@@ -50,6 +57,7 @@ public class AccountListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_account_list);
 
         setUpRecyclerView();
+        checkedItem=0;//sets default clicked radio button in dialog
     }
 
     private void setUpRecyclerView() {
@@ -153,13 +161,12 @@ public class AccountListActivity extends AppCompatActivity {
         startActivityForResult(i, 10);
     }
 
-    public void logout(View view) {
+    public void logout() {
         /**
          -------------------------------------------------------
          Logs a user out of the app using Firebase Auth
          -------------------------------------------------------
-         Parameters:
-         View view - a view
+
          -------------------------------------------------------
          */
         mAuth = FirebaseAuth.getInstance();
@@ -169,5 +176,140 @@ public class AccountListActivity extends AppCompatActivity {
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
         Toast.makeText(AccountListActivity.this, "You are logged out!", Toast.LENGTH_SHORT).show();
+    }
+
+    //====================== MENUBAR, SORT, AND HELP BUTTON ========================================
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        /**
+         ---------------------------------------------------
+         override options menu to hold sort and help buttons
+         -------------------------------------------------
+         */
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.list_menu,menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        /**
+         ---------------------------------------------------
+         Listener for menu buttons
+         -------------------------------------------------
+         */
+        switch (item.getItemId()){
+            //check which menu item is selected
+            case R.id.menuSortBt:
+                //Log.i("AccountList_menu", "onOptionsItemSelected: sort");
+                onSortClick();
+                return true;
+            case R.id.menuLogoutBt:
+                //Log.i("AccountList_menu", "onOptionsItemSelected: log out");
+                logout();
+                return true;
+            case R.id.menuInfoBt:
+                //Log.i("AccountList_menu", "onOptionsItemSelected: info");
+                showInfoBox(R.string.menuInfoTitle,R.array.infoBoxText);
+                return true;
+            case R.id.menuHelptBt:
+                //Log.i("AccountList_menu", "onOptionsItemSelected: help");
+                showInfoBox(R.string.menuHelpTitle,R.array.helpBoxText);
+                return true;
+
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void onSortClick(){
+        /**
+        ------------------------------------------------------------------------------
+        Display a radio option dialog box with sort options. Then sort list accordingly
+         -----------------------------------------------------------------------------
+        */
+        AlertDialog.Builder sortDialog = new AlertDialog.Builder(AccountListActivity.this);
+        sortDialog.setTitle(R.string.menuPopSortTitle);
+        Resources res = getResources();
+        final String[] sortOps = res.getStringArray(R.array.sortOptions);
+
+        sortDialog.setSingleChoiceItems(sortOps, checkedItem, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                //handle sort selection by resorting accordingly
+                switch (which){
+                    case 0://Account name A-Z
+                        Toast.makeText(AccountListActivity.this,"Clicked on sort by: "+sortOps[0],Toast.LENGTH_LONG).show();
+                        checkedItem = 0;
+                        break;
+                    case 1://Account name Z-A
+                        Toast.makeText(AccountListActivity.this,"Clicked on sort by: "+sortOps[1],Toast.LENGTH_LONG).show();
+                        checkedItem = 1;
+                        break;
+                    case 2://User name A-Z
+                        Toast.makeText(AccountListActivity.this,"Clicked on sort by: "+sortOps[2],Toast.LENGTH_LONG).show();
+                        checkedItem = 2;
+                        break;
+                    case 3://User name Z-A
+                        Toast.makeText(AccountListActivity.this,"Clicked on sort by: "+sortOps[3],Toast.LENGTH_LONG).show();
+                        checkedItem = 3;
+                        break;
+                    case 4://Date
+                        Toast.makeText(AccountListActivity.this,"Clicked on sort by: "+sortOps[4],Toast.LENGTH_LONG).show();
+                        checkedItem = 4;
+                        break;
+                    case 5:
+                        Toast.makeText(AccountListActivity.this,"Clicked on sort by: "+sortOps[5],Toast.LENGTH_LONG).show();
+                        checkedItem = 5;
+                        break;
+                }
+            }
+        });
+        sortDialog.setNeutralButton(R.string.ok, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                //just close dialog bsox
+            }
+        });
+
+        AlertDialog sortBox = sortDialog.create();
+        sortBox.setCanceledOnTouchOutside(false);
+        sortBox.show();
+    }
+
+    private void showInfoBox(int titleId,int messageId){
+        /**
+        --------------------------------------
+        Displays info dialog box
+        Used for "help" and "App Info" dialog
+        Pass title and message id as args
+        message id is id of string array
+         --------------------------------------
+     */
+        Resources res = getResources();
+        final String[] text = res.getStringArray(messageId);
+        //concat and add newlines
+        String textString="";
+        for (int i=0;i<text.length;i++){
+            if(text[i].charAt(0)=='/'){
+                textString = textString +"  "+ text[i].substring(1) + "\n";
+            }else {
+                textString = textString + text[i] + "\n";
+            }
+        }
+
+        AlertDialog.Builder infoDialogBuilder = new AlertDialog.Builder(AccountListActivity.this);
+        infoDialogBuilder.setTitle(titleId);
+        infoDialogBuilder.setMessage(textString);
+        infoDialogBuilder.setNeutralButton(R.string.ok, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                //just close dialog bsox
+            }
+        });
+        AlertDialog dialog = infoDialogBuilder.create();
+        dialog.setCanceledOnTouchOutside(true);
+        dialog.show();
+
     }
 }
