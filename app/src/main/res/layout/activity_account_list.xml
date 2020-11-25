@@ -5,38 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".AccountListActivity">
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:background="@color/listBackground">
-        <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-            android:id="@+id/cardView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            app:cardCornerRadius="4dp"
-            android:layout_marginLeft="9dp"
-
-            android:layout_marginRight="9dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
-            >
-            <EditText
-                android:id="@+id/accountListSearch"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:background="@android:color/white"
-                android:hint="@string/hintAccountList" />
-        </androidx.cardview.widget.CardView>
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/accountListRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:padding="4dp"
             android:background="@color/listBackground"/>
-    </LinearLayout>
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/addNewAccountBt"
         android:layout_width="wrap_content"
