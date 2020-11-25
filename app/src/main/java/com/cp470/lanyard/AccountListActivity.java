@@ -107,6 +107,7 @@ public class AccountListActivity extends AppCompatActivity {
             @Override
             public void onItemLongClick(DocumentSnapshot documentSnapshot, int position) {
                 AccountItem accountItem = documentSnapshot.toObject(AccountItem.class); //the name of the item in the db
+                //Log.d("copyclick", "onItemLongClick: press");
                 onCopyClick(accountItem.getTitle(), accountItem.getPassword());
             }
         });
@@ -141,7 +142,7 @@ public class AccountListActivity extends AppCompatActivity {
         ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
         ClipData clip = ClipData.newPlainText(title + " password", password);
         clipboard.setPrimaryClip(clip);
-
+        //Log.d("copyclick", "onCopyClick: "+title+" "+password);
         //print message it toast
         String copyMessage = title + " " + getString(R.string.copyMsg);
         Toast toast = Toast.makeText(this, copyMessage, Toast.LENGTH_SHORT);
