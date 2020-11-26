@@ -13,16 +13,27 @@
         android:layout_height="match_parent"
         android:layout_margin="20dp">
 
+        <ProgressBar
+            android:id="@+id/detail_loading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="visible"
+            android:indeterminateTint="@color/listBackground"/>
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:id="@+id/account_details"
+            android:visibility="invisible"
+            android:layout_marginRight="25dp" >
 
             <!-- Icon -->
             <ImageView
                 android:id="@+id/detailIconAccountItem"
                 android:layout_width="78dp"
                 android:layout_height="93dp"
-                android:layout_margin="@dimen/listText"
+                android:layout_marginLeft="@dimen/listText"
                 android:src="@drawable/placeholder"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -49,7 +60,7 @@
                 android:layout_marginStart="@dimen/startMarginList"
                 android:text="@string/listUserTitle"
                 android:textColor="@color/mainTextColor"
-                android:textSize="@dimen/listText"
+                android:textSize="@dimen/detailText"
                 android:textStyle="bold"
                 app:layout_constraintLeft_toLeftOf="@id/detailIconAccountItem"
                 app:layout_constraintTop_toBottomOf="@id/detailIconAccountItem" />
@@ -60,7 +71,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/startMarginList"
                 android:text="empty user name"
-                android:textSize="@dimen/listText"
+                android:textSize="@dimen/detailText"
                 app:layout_constraintLeft_toRightOf="@id/detailUserNameTitleAccountItem"
                 app:layout_constraintTop_toBottomOf="@id/detailIconAccountItem" />
 
@@ -73,7 +84,7 @@
                 android:layout_marginBottom="@dimen/listTextSpacing"
                 android:text="@string/listPassTitle"
                 android:textColor="@color/mainTextColor"
-                android:textSize="@dimen/listText"
+                android:textSize="@dimen/detailText"
                 android:textStyle="bold"
                 app:layout_constraintLeft_toLeftOf="@id/detailIconAccountItem"
                 app:layout_constraintTop_toBottomOf="@id/detailUserNameTitleAccountItem" />
@@ -85,9 +96,19 @@
                 android:layout_marginStart="@dimen/startMarginList"
                 android:layout_marginBottom="@dimen/listTextSpacing"
                 android:text="empty password"
-                android:textSize="@dimen/listText"
+                android:textSize="@dimen/detailText"
                 app:layout_constraintLeft_toRightOf="@id/detailPassTitleAccountItem"
                 app:layout_constraintTop_toBottomOf="@id/detailUserNameTitleAccountItem" />
+
+            <ImageView
+                android:id="@+id/detail_toggle_password"
+                android:src="@drawable/ic_baseline_visibility_24"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                app:layout_constraintTop_toBottomOf="@id/detailUserNameTitleAccountItem"
+                app:layout_constraintLeft_toRightOf="@id/detailPassAccountItem"
+                android:onClick="onTogglePasswordView" />
 
             <!-- Creation date -->
             <TextView
@@ -98,7 +119,7 @@
                 android:layout_marginBottom="@dimen/listTextSpacing"
                 android:text="Creation Date:"
                 android:textColor="@color/mainTextColor"
-                android:textSize="@dimen/listText"
+                android:textSize="@dimen/detailText"
                 android:textStyle="bold"
                 app:layout_constraintLeft_toLeftOf="@id/detailIconAccountItem"
                 app:layout_constraintTop_toBottomOf="@id/detailPassTitleAccountItem" />
@@ -110,7 +131,7 @@
                 android:layout_marginStart="@dimen/startMarginList"
                 android:layout_marginBottom="@dimen/listTextSpacing"
                 android:text="empty creation date"
-                android:textSize="@dimen/listText"
+                android:textSize="@dimen/detailText"
                 app:layout_constraintLeft_toRightOf="@id/detailCreationDateTitle"
                 app:layout_constraintTop_toBottomOf="@id/detailPassAccountItem" />
 
@@ -123,7 +144,7 @@
                 android:layout_marginBottom="@dimen/listTextSpacing"
                 android:text="Notes:"
                 android:textColor="@color/mainTextColor"
-                android:textSize="@dimen/listText"
+                android:textSize="@dimen/detailText"
                 android:textStyle="bold"
                 app:layout_constraintLeft_toLeftOf="@id/detailIconAccountItem"
                 app:layout_constraintTop_toBottomOf="@id/detailCreationDate" />
@@ -136,7 +157,7 @@
                 android:layout_marginEnd="@dimen/startMarginList"
                 android:layout_marginBottom="@dimen/listTextSpacing"
                 android:text="empty notes box"
-                android:textSize="@dimen/listText"
+                android:textSize="@dimen/detailText"
                 app:layout_constraintLeft_toLeftOf="@id/detailIconAccountItem"
                 app:layout_constraintTop_toBottomOf="@id/detailPassNotesTitle" />
 
