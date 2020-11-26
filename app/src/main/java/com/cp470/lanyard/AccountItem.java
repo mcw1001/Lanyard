@@ -2,8 +2,10 @@ package com.cp470.lanyard;
 
 import androidx.annotation.NonNull;
 
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FieldValue;
+import com.google.firebase.firestore.ServerTimestamp;
 
 import java.time.LocalDateTime; // import the LocalDateTime class
 
@@ -29,32 +31,33 @@ public class AccountItem {
      -------------------------------------------------------
      */
 
-    private int imageResource;// resource int for icon in list view
+    private String imageResource;// resource int for icon in list view
     private String title;
     private String userName;
     private String password;
     private String userIdMaster;
-    //FIXME private String timestamp;
+    @ServerTimestamp
+    private Timestamp timestamp;
 
     public AccountItem() {
         //public no-arg constructor needed for Firestore ¯\_(ツ)_/¯
         //See google docs if you want to learn more
     }
 
-    public AccountItem(FirebaseUser userIdMaster, int imageResource, String title, String userName, String password) {
+    public AccountItem(FirebaseUser userIdMaster, String imageResource, String title, String userName, String password, Timestamp timestamp) {
         this.userIdMaster = userIdMaster.getUid();
         this.imageResource = imageResource;
         this.title = title;
         this.userName = userName;
         this.password = password;
-        //FIXME this.timestamp = timestamp;
+        this.timestamp = timestamp;
     }
 
-    public int getImageResource() {
+    public String getImageResource() {
         return imageResource;
     }
 
-    public void setImageResource(int imageResource) {
+    public void setImageResource(String imageResource) {
         this.imageResource = imageResource;
     }
 
@@ -90,14 +93,13 @@ public class AccountItem {
         this.userIdMaster = userIdMaster;
     }
 
-//FIXME
-//    public String getTimestamp() {
-//        return timestamp;
-//    }
 
-//FIXME
-//    public void setTimestamp(String timestamp) {
-//        this.timestamp = timestamp;
-//    }
+    public Timestamp getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(Timestamp timestamp) {
+        this.timestamp = timestamp;
+    }
 
 }

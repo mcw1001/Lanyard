@@ -14,9 +14,11 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -98,12 +100,11 @@ public class AccountListItemDetailView extends AppCompatActivity {
 
         FirebaseUser currentUser = mAuth.getInstance().getCurrentUser();
 
-        //FIXME String timestamp = FieldValue.serverTimestamp().toString();
-        // - either by figuring out how to serialize FieldValues or just replace with a string timestamp
+        Timestamp timestamp = Timestamp.now();
 
         //TODO change imageResource to a image file
-        int imageResource = 0;
-        AccountItem accountItem = new AccountItem(currentUser, imageResource, accountTitle, accountUserName, accountPassword);
+        String imageResource = "filePath";
+        AccountItem accountItem = new AccountItem(currentUser, imageResource, accountTitle, accountUserName, accountPassword, timestamp);
 
         db.collection("accounts").document(documentId).set(accountItem, SetOptions.merge());
         Toast.makeText(AccountListItemDetailView.this, "Password Updated", Toast.LENGTH_SHORT).show();

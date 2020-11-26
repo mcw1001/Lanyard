@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
@@ -65,12 +66,12 @@ public class MainActivity extends AppCompatActivity {
 
         FirebaseUser currentUser = mAuth.getInstance().getCurrentUser();
 
-        //FIXME String timestamp = FieldValue.serverTimestamp().toString();
-        // - either by figuring out how to serialize FieldValues or just replace with a string timestamp
+        Timestamp timestamp = Timestamp.now();
 
-        //TODO change imageResource to a image file
-        int imageResource = 0;
-        AccountItem accountItem = new AccountItem(currentUser, imageResource, accountTitle, accountUserName, accountPassword);
+
+
+        String imageResource = "filePath";
+        AccountItem accountItem = new AccountItem(currentUser, imageResource, accountTitle, accountUserName, accountPassword, timestamp);
 
         // Add a new document with a generated ID
         db.collection("accounts")
