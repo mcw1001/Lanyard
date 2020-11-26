@@ -9,9 +9,16 @@ import android.widget.TextView;
 
 public class AccountDetailActivity extends AppCompatActivity {
 
+    // Firebase stuff
+    private FirebaseAuth mAuth;
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private String documentId;    
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Intent intent = getIntent();
+        documentId = intent.getExtras().getString("documentId");
         AccountItem account = new AccountItem(
                 R.drawable.ic_baseline_mail_24,
                 "Fake Mail",
@@ -39,6 +46,38 @@ public class AccountDetailActivity extends AppCompatActivity {
                 "Aenean est sapien, commodo vel est accumsan, tincidunt pellentesque diam. " +
                 "Praesent libero quam, vestibulum nec efficitur in, lacinia ut nunc. Suspendisse malesuada euismod nunc vitae euismod. "
         );
+    }
+
+    private void loadAccountItem() {
+        /**
+         -------------------------------------------------------
+         Loads AccountItems from the Firebase Firestore
+         -------------------------------------------------------
+         */
+        db.collection("accounts").document(documentId)
+            .get()
+            .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+
+                @Override
+                public void onSuccess(DocumentSnapshot documentSnapshot) {
+                    if (documentSnapshot.exists()) {
+                        AccountItem accountItem = documentSnapshot.toObject(AccountItem.class);
+
+                        accountTitle.setText(accountItem.getTitle());
+                        // accountIcon.
+                        accountUsername.setText(accountItem.getUserName());
+                        accountPassword.setText(accountItem.getPassword());
+                    } else {
+                        Toast.makeText(AccountListItemDetailView.this, "Error loading password", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            })
+            .addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+
+                }
+            });
     }
 
     public void onEditAccountClick(View view) {

@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "939860193043",
+    "firebase_url": "https://lanyard-d8f26.firebaseio.com",
+    "project_id": "lanyard-d8f26",
+    "storage_bucket": "lanyard-d8f26.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:939860193043:android:21bd529df8991513d074e6",
+        "android_client_info": {
+          "package_name": "com.cp470.lanyard"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "939860193043-n781kbocrj1qh3usth1gvuj5val748f5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAicFRNL9x_kaPglTbWIaezqbyi4sZeBek"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "939860193043-n781kbocrj1qh3usth1gvuj5val748f5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
