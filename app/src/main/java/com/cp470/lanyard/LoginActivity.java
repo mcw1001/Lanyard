@@ -26,7 +26,14 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
 //import com.google.android.material.snackbar.Snackbar;
-
+/*
+Group Members:
+    Michael Child-Wynne-Jones
+    Morgenne Besenschek
+    James Robertson
+    Amardeep Sarang
+    Asad Abbas
+ */
 public class LoginActivity extends AppCompatActivity {
 
     protected static final String ACTIVITY_NAME = "LoginActivity";
