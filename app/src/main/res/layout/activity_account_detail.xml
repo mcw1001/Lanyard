@@ -33,133 +33,110 @@
                 android:id="@+id/detailIconAccountItem"
                 android:layout_width="78dp"
                 android:layout_height="93dp"
-                android:layout_marginLeft="@dimen/listText"
+                android:layout_marginLeft="25dp"
                 android:src="@drawable/placeholder"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/detailUserNameTitleAccountItem"/>
 
             <!-- Title -->
             <TextView
                 android:id="@+id/detailTitleAccountItem"
                 android:layout_width="wrap_content"
-                android:layout_height="69dp"
+                android:layout_height="40dp"
                 android:layout_marginLeft="16dp"
-                android:layout_marginTop="48dp"
+                android:layout_marginTop="30dp"
                 android:text="Title"
                 android:textColor="@color/mainTextColor"
                 android:textSize="@dimen/listTitle"
                 android:textStyle="bold"
                 app:layout_constraintLeft_toRightOf="@id/detailIconAccountItem"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/detailUserNameTitleAccountItem"/>
 
             <!-- Username -->
             <TextView
                 android:id="@+id/detailUserNameTitleAccountItem"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/startMarginList"
+                android:layout_marginBottom="@dimen/detailTextSpacing"
                 android:text="@string/listUserTitle"
                 android:textColor="@color/mainTextColor"
                 android:textSize="@dimen/detailText"
                 android:textStyle="bold"
                 app:layout_constraintLeft_toLeftOf="@id/detailIconAccountItem"
-                app:layout_constraintTop_toBottomOf="@id/detailIconAccountItem" />
+                app:layout_constraintBottom_toTopOf="@id/detailUserNameAccountItem"/>
 
             <TextView
                 android:id="@+id/detailUserNameAccountItem"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/startMarginList"
+                android:layout_marginBottom="@dimen/detailTextSpacing"
                 android:text="empty user name"
+                android:singleLine="false"
                 android:textSize="@dimen/detailText"
-                app:layout_constraintLeft_toRightOf="@id/detailUserNameTitleAccountItem"
-                app:layout_constraintTop_toBottomOf="@id/detailIconAccountItem" />
+                app:layout_constraintLeft_toLeftOf="@id/detailIconAccountItem"
+                app:layout_constraintBottom_toTopOf="@id/detailPassTitleAccountItem" />
 
             <!-- Password -->
             <TextView
                 android:id="@+id/detailPassTitleAccountItem"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/startMarginList"
-                android:layout_marginBottom="@dimen/listTextSpacing"
+                android:layout_marginBottom="@dimen/detailTextSpacing"
                 android:text="@string/listPassTitle"
                 android:textColor="@color/mainTextColor"
                 android:textSize="@dimen/detailText"
                 android:textStyle="bold"
                 app:layout_constraintLeft_toLeftOf="@id/detailIconAccountItem"
-                app:layout_constraintTop_toBottomOf="@id/detailUserNameTitleAccountItem" />
+                app:layout_constraintBottom_toTopOf="@id/detailPassAccountItem" />
 
-            <TextView
-                android:id="@+id/detailPassAccountItem"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/startMarginList"
-                android:layout_marginBottom="@dimen/listTextSpacing"
-                android:text="empty password"
-                android:textSize="@dimen/detailText"
-                app:layout_constraintLeft_toRightOf="@id/detailPassTitleAccountItem"
-                app:layout_constraintTop_toBottomOf="@id/detailUserNameTitleAccountItem" />
-
+            <!-- Password visibility toggle -->
             <ImageView
                 android:id="@+id/detail_toggle_password"
                 android:src="@drawable/ic_baseline_visibility_24"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
-                app:layout_constraintTop_toBottomOf="@id/detailUserNameTitleAccountItem"
-                app:layout_constraintLeft_toRightOf="@id/detailPassAccountItem"
+                android:layout_marginBottom="@dimen/detailTextSpacing"
+                app:layout_constraintLeft_toRightOf="@id/detailPassTitleAccountItem"
+                app:layout_constraintBottom_toTopOf="@id/detailPassAccountItem"
                 android:onClick="onTogglePasswordView" />
+
+            <TextView
+                android:id="@+id/detailPassAccountItem"
+                android:layout_width="0dp"
+                android:maxWidth="200dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/detailTextSpacing"
+                android:text="empty password"
+                android:textSize="@dimen/detailText"
+                android:singleLine="false"
+                app:layout_constraintLeft_toLeftOf="@id/detailIconAccountItem"
+                app:layout_constraintBottom_toTopOf="@id/detailCreationDateTitle" />
 
             <!-- Creation date -->
             <TextView
                 android:id="@+id/detailCreationDateTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/startMarginList"
-                android:layout_marginBottom="@dimen/listTextSpacing"
+                android:layout_marginBottom="@dimen/detailTextSpacing"
                 android:text="Creation Date:"
                 android:textColor="@color/mainTextColor"
                 android:textSize="@dimen/detailText"
                 android:textStyle="bold"
                 app:layout_constraintLeft_toLeftOf="@id/detailIconAccountItem"
-                app:layout_constraintTop_toBottomOf="@id/detailPassTitleAccountItem" />
+                app:layout_constraintBottom_toTopOf="@id/detailCreationDate" />
 
             <TextView
                 android:id="@+id/detailCreationDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/startMarginList"
-                android:layout_marginBottom="@dimen/listTextSpacing"
+                android:layout_marginBottom="@dimen/detailTextSpacing"
                 android:text="empty creation date"
                 android:textSize="@dimen/detailText"
-                app:layout_constraintLeft_toRightOf="@id/detailCreationDateTitle"
-                app:layout_constraintTop_toBottomOf="@id/detailPassAccountItem" />
-
-            <!-- Notes -->
-            <TextView
-                android:id="@+id/detailPassNotesTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/startMarginList"
-                android:layout_marginBottom="@dimen/listTextSpacing"
-                android:text="Notes:"
-                android:textColor="@color/mainTextColor"
-                android:textSize="@dimen/detailText"
-                android:textStyle="bold"
                 app:layout_constraintLeft_toLeftOf="@id/detailIconAccountItem"
-                app:layout_constraintTop_toBottomOf="@id/detailCreationDate" />
-
-            <TextView
-                android:id="@+id/detailPassNotes"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/startMarginList"
-                android:layout_marginEnd="@dimen/startMarginList"
-                android:layout_marginBottom="@dimen/listTextSpacing"
-                android:text="empty notes box"
-                android:textSize="@dimen/detailText"
-                app:layout_constraintLeft_toLeftOf="@id/detailIconAccountItem"
-                app:layout_constraintTop_toBottomOf="@id/detailPassNotesTitle" />
+                app:layout_constraintBottom_toBottomOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -37,7 +37,6 @@ public class AccountDetailActivity extends AppCompatActivity {
     protected TextView accountUsername;
     protected TextView accountPassword;
     protected TextView accountCreation;
-    protected TextView accountNotes;
     protected ProgressBar loadingBar;
     protected ConstraintLayout accountDetails;
     protected ImageView togglePassword;
@@ -59,16 +58,7 @@ public class AccountDetailActivity extends AppCompatActivity {
         accountPassword = findViewById(R.id.detailPassAccountItem);
         accountPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
         accountCreation = findViewById(R.id.detailCreationDate);
-        accountNotes = findViewById(R.id.detailPassNotes);
         togglePassword = findViewById(R.id.detail_toggle_password);
-        accountNotes.setText("Lorem ipsum dolor sit amet, consectetur adipiscing elit. " +
-                "Phasellus sem quam, maximus eu vehicula id, sagittis quis sem. In luctus ultricies lacus nec lobortis. Aliquam sed porttitor mauris. " +
-                "Etiam sit amet imperdiet ante. Morbi suscipit ultrices ante, ut euismod massa rhoncus et. " +
-                "Curabitur libero lacus, scelerisque a orci laoreet, viverra iaculis arcu. " +
-                "Duis fermentum lorem in justo blandit eleifend. Curabitur et tincidunt ex. Integer id dolor libero. " +
-                "Aenean est sapien, commodo vel est accumsan, tincidunt pellentesque diam. " +
-                "Praesent libero quam, vestibulum nec efficitur in, lacinia ut nunc. Suspendisse malesuada euismod nunc vitae euismod. "
-        );
 
         loadAccountItem();
     }
