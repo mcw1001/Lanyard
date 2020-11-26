@@ -3,6 +3,7 @@ package com.cp470.lanyard;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.MenuItemCompat;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -14,12 +15,15 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,6 +44,7 @@ public class AccountListActivity extends AppCompatActivity {
     private static final CollectionReference accountRef = FirebaseFirestore.getInstance().collection("accounts");
     private AccountListAdapter mAdapter;
     private int checkedItem;
+    private String searchStr;
 
 
     static {
@@ -58,6 +63,7 @@ public class AccountListActivity extends AppCompatActivity {
 
         setUpRecyclerView();
         checkedItem=0;//sets default clicked radio button in dialog
+        searchStr="";
     }
 
     private void setUpRecyclerView() {
@@ -66,13 +72,15 @@ public class AccountListActivity extends AppCompatActivity {
          Sets up the recyclerView using Firebase Firestore UI.
          -------------------------------------------------------
          */
+
         String currentUser = mAuth.getInstance().getCurrentUser().getUid();
-        Query query = accountRef.whereEqualTo("userIdMaster", currentUser);
+        Query query = accountRef.whereEqualTo("userIdMaster", currentUser).orderBy("title", Query.Direction.ASCENDING);;
 
         FirestoreRecyclerOptions<AccountItem> options = new FirestoreRecyclerOptions.Builder<AccountItem>()
                 .setQuery(query, AccountItem.class)
                 .build();
         mAdapter = new AccountListAdapter(options);
+
 
         RecyclerView recyclerView = findViewById(R.id.accountListRecyclerView);
         recyclerView.setHasFixedSize(true);
@@ -113,6 +121,7 @@ public class AccountListActivity extends AppCompatActivity {
         });
 
     }
+
 
     @Override
     protected void onStart() {
@@ -190,6 +199,36 @@ public class AccountListActivity extends AppCompatActivity {
          */
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.list_menu,menu);
+
+        //get search bar and set up listener
+        MenuItem searchItem = menu.findItem(R.id.accountListSearch);
+        SearchView searchView = (SearchView) searchItem.getActionView();
+
+        //listener for search bar
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                //only search on submit
+                Log.i("searchBar", "onQueryTextSubmit: "+query);
+                searchStr=query;
+                executeQuery(checkedItem,searchStr);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                //listens for when search is cleared
+                if(newText.isEmpty()) {
+                    Log.i("searchBar", "onQueryTextSubmit: empty");
+                    searchStr="";
+                    executeQuery(checkedItem,searchStr);
+                }
+
+                return false;
+            }
+        });
+
+
         return true;
     }
 
@@ -240,30 +279,33 @@ public class AccountListActivity extends AppCompatActivity {
                 //handle sort selection by resorting accordingly
                 switch (which){
                     case 0://Account name A-Z
-                        Toast.makeText(AccountListActivity.this,"Clicked on sort by: "+sortOps[0],Toast.LENGTH_LONG).show();
+                        //Toast.makeText(AccountListActivity.this,"Clicked on sort by: "+sortOps[0],Toast.LENGTH_LONG).show();
                         checkedItem = 0;
+
                         break;
                     case 1://Account name Z-A
-                        Toast.makeText(AccountListActivity.this,"Clicked on sort by: "+sortOps[1],Toast.LENGTH_LONG).show();
+                        //Toast.makeText(AccountListActivity.this,"Clicked on sort by: "+sortOps[1],Toast.LENGTH_LONG).show();
                         checkedItem = 1;
                         break;
                     case 2://User name A-Z
-                        Toast.makeText(AccountListActivity.this,"Clicked on sort by: "+sortOps[2],Toast.LENGTH_LONG).show();
+                        //Toast.makeText(AccountListActivity.this,"Clicked on sort by: "+sortOps[2],Toast.LENGTH_LONG).show();
                         checkedItem = 2;
                         break;
                     case 3://User name Z-A
-                        Toast.makeText(AccountListActivity.this,"Clicked on sort by: "+sortOps[3],Toast.LENGTH_LONG).show();
+                        //Toast.makeText(AccountListActivity.this,"Clicked on sort by: "+sortOps[3],Toast.LENGTH_LONG).show();
                         checkedItem = 3;
                         break;
                     case 4://Date
-                        Toast.makeText(AccountListActivity.this,"Clicked on sort by: "+sortOps[4],Toast.LENGTH_LONG).show();
+                        //Toast.makeText(AccountListActivity.this,"Clicked on sort by: "+sortOps[4],Toast.LENGTH_LONG).show();
                         checkedItem = 4;
                         break;
                     case 5:
-                        Toast.makeText(AccountListActivity.this,"Clicked on sort by: "+sortOps[5],Toast.LENGTH_LONG).show();
+                        //Toast.makeText(AccountListActivity.this,"Clicked on sort by: "+sortOps[5],Toast.LENGTH_LONG).show();
                         checkedItem = 5;
                         break;
                 }
+                //run query
+                executeQuery(checkedItem,searchStr);
             }
         });
         sortDialog.setNeutralButton(R.string.ok, new DialogInterface.OnClickListener() {
@@ -311,6 +353,85 @@ public class AccountListActivity extends AppCompatActivity {
         AlertDialog dialog = infoDialogBuilder.create();
         dialog.setCanceledOnTouchOutside(true);
         dialog.show();
+
+    }
+
+    //====================== SORT AND SEARCH FUNCTIONS ========================================
+    private void executeQuery(int sortMode, String searchStr){
+        /**
+         -----------------------------------------------------------------------------------
+         Builds and runs query based of sort and search parameters
+         ------------------------------------------------------------------------------------
+         Parameters:
+         int sortMode - matches the value of checkedItem in sort dialog. Specifies sort mode
+         String searchStr - the string user searched for. If empty don't search for any string
+         ------------------------------------------------------------------------------------
+         */
+
+        String currentUser = mAuth.getInstance().getCurrentUser().getUid();
+        Query query= accountRef.whereEqualTo("userIdMaster", currentUser).orderBy("title", Query.Direction.DESCENDING);
+
+        if (searchStr.isEmpty()) {
+            switch (sortMode) {
+                case 0://Account name A-Z
+                    query = accountRef.whereEqualTo("userIdMaster", currentUser).orderBy("title", Query.Direction.ASCENDING);
+                    break;
+                case 1://Account name Z-A
+                    query = accountRef.whereEqualTo("userIdMaster", currentUser).orderBy("title", Query.Direction.DESCENDING);
+                    break;
+                case 2://User name A-Z
+                    query = accountRef.whereEqualTo("userIdMaster", currentUser).orderBy("userName", Query.Direction.ASCENDING);
+                    break;
+                case 3://User name Z-A
+                    query = accountRef.whereEqualTo("userIdMaster", currentUser).orderBy("userName", Query.Direction.DESCENDING);
+                    break;
+
+                case 4://Date
+
+                    query = accountRef.whereEqualTo("userIdMaster", currentUser).orderBy("timestamp", Query.Direction.ASCENDING);
+                    checkedItem = 4;
+                    break;
+                case 5:
+                    query = accountRef.whereEqualTo("userIdMaster", currentUser).orderBy("timestamp", Query.Direction.DESCENDING);
+                    checkedItem = 5;
+                    break;
+
+
+            }
+        }else {
+            switch (sortMode) {
+                case 0://Account name A-Z
+                    query = accountRef.whereEqualTo("userIdMaster", currentUser).whereEqualTo("title", searchStr).orderBy("title", Query.Direction.ASCENDING);
+                    break;
+                case 1://Account name Z-A
+                    query = accountRef.whereEqualTo("userIdMaster", currentUser).whereEqualTo("title", searchStr).orderBy("title", Query.Direction.DESCENDING);
+                    break;
+                case 2://User name A-Z
+                    query = accountRef.whereEqualTo("userIdMaster", currentUser).whereEqualTo("title", searchStr).orderBy("userName", Query.Direction.ASCENDING);
+                    break;
+                case 3://User name Z-A
+                    query = accountRef.whereEqualTo("userIdMaster", currentUser).whereEqualTo("title", searchStr).orderBy("userName", Query.Direction.DESCENDING);
+                    break;
+
+                case 4://Date
+
+                    query = accountRef.whereEqualTo("userIdMaster", currentUser).whereEqualTo("title", searchStr).orderBy("timestamp", Query.Direction.ASCENDING);
+                    checkedItem = 4;
+                    break;
+                case 5:
+                    query = accountRef.whereEqualTo("userIdMaster", currentUser).whereEqualTo("title", searchStr).orderBy("timestamp", Query.Direction.DESCENDING);
+                    checkedItem = 5;
+                    break;
+
+
+            }
+        }
+        FirestoreRecyclerOptions<AccountItem> options = new FirestoreRecyclerOptions.Builder<AccountItem>()
+                .setQuery(query, AccountItem.class)
+                .build();
+        //update adapter
+        mAdapter.updateOptions(options);
+
 
     }
 }
