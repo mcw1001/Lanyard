@@ -102,8 +102,8 @@ public class AccountListItemDetailView extends AppCompatActivity {
 
         Timestamp timestamp = Timestamp.now();
 
-        //TODO change imageResource to a image file
-        String imageResource = "filePath";
+        //TODO change imageResource
+        int imageResource = 0;
         AccountItem accountItem = new AccountItem(currentUser, imageResource, accountTitle, accountUserName, accountPassword, timestamp);
 
         db.collection("accounts").document(documentId).set(accountItem, SetOptions.merge());

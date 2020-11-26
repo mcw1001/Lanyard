@@ -388,11 +388,11 @@ public class AccountListActivity extends AppCompatActivity {
 
                 case 4://Date
 
-                    query = accountRef.whereEqualTo("userIdMaster", currentUser).orderBy("timestamp", Query.Direction.ASCENDING);
+                    query = accountRef.whereEqualTo("userIdMaster", currentUser).orderBy("timestamp", Query.Direction.DESCENDING);
                     checkedItem = 4;
                     break;
                 case 5:
-                    query = accountRef.whereEqualTo("userIdMaster", currentUser).orderBy("timestamp", Query.Direction.DESCENDING);
+                    query = accountRef.whereEqualTo("userIdMaster", currentUser).orderBy("timestamp", Query.Direction.ASCENDING);
                     checkedItem = 5;
                     break;
 
@@ -415,11 +415,11 @@ public class AccountListActivity extends AppCompatActivity {
 
                 case 4://Date
 
-                    query = accountRef.whereEqualTo("userIdMaster", currentUser).whereEqualTo("title", searchStr).orderBy("timestamp", Query.Direction.ASCENDING);
+                    query = accountRef.whereEqualTo("userIdMaster", currentUser).whereEqualTo("title", searchStr).orderBy("timestamp", Query.Direction.DESCENDING);
                     checkedItem = 4;
                     break;
                 case 5:
-                    query = accountRef.whereEqualTo("userIdMaster", currentUser).whereEqualTo("title", searchStr).orderBy("timestamp", Query.Direction.DESCENDING);
+                    query = accountRef.whereEqualTo("userIdMaster", currentUser).whereEqualTo("title", searchStr).orderBy("timestamp", Query.Direction.ASCENDING);
                     checkedItem = 5;
                     break;
 

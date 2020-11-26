@@ -31,7 +31,7 @@ public class AccountItem {
      -------------------------------------------------------
      */
 
-    private String imageResource;// resource int for icon in list view
+    private int imageResource;// resource int for icon in list view
     private String title;
     private String userName;
     private String password;
@@ -44,7 +44,7 @@ public class AccountItem {
         //See google docs if you want to learn more
     }
 
-    public AccountItem(FirebaseUser userIdMaster, String imageResource, String title, String userName, String password, Timestamp timestamp) {
+    public AccountItem(FirebaseUser userIdMaster, int imageResource, String title, String userName, String password, Timestamp timestamp) {
         this.userIdMaster = userIdMaster.getUid();
         this.imageResource = imageResource;
         this.title = title;
@@ -53,11 +53,11 @@ public class AccountItem {
         this.timestamp = timestamp;
     }
 
-    public String getImageResource() {
+    public int getImageResource() {
         return imageResource;
     }
 
-    public void setImageResource(String imageResource) {
+    public void setImageResource(int imageResource) {
         this.imageResource = imageResource;
     }
 

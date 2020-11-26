@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        String imageResource = "filePath";
+        int imageResource = 0;
         AccountItem accountItem = new AccountItem(currentUser, imageResource, accountTitle, accountUserName, accountPassword, timestamp);
 
         // Add a new document with a generated ID
