@@ -62,7 +62,8 @@
         <item>/- Tap the account item card to go to detail page.</item>
     </string-array>
 
-
+    <!--    ICON PICKER                  -->
+    <string name="iconPickerTitle">Pick a icon</string>
 
     <!--    LOGIN ACTIVITY STRINGS      -->
     <string name="loginBtn">login</string>
