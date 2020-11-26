@@ -6,5 +6,6 @@
         android:id="@+id/iconGrid"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:numColumns="3"/>
+        android:numColumns="3"
+    />
 </FrameLayout>

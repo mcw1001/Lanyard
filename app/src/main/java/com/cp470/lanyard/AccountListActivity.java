@@ -74,7 +74,7 @@ public class AccountListActivity extends AppCompatActivity {
          */
 
         String currentUser = mAuth.getInstance().getCurrentUser().getUid();
-        Query query = accountRef.whereEqualTo("userIdMaster", currentUser).orderBy("title", Query.Direction.ASCENDING);;
+        Query query = accountRef.whereEqualTo("userIdMaster", currentUser).orderBy("title", Query.Direction.ASCENDING);
 
         FirestoreRecyclerOptions<AccountItem> options = new FirestoreRecyclerOptions.Builder<AccountItem>()
                 .setQuery(query, AccountItem.class)
@@ -96,7 +96,9 @@ public class AccountListActivity extends AppCompatActivity {
 
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-                mAdapter.deleteAccountItem(viewHolder.getAdapterPosition());
+                int pos=viewHolder.getAdapterPosition();
+                mAdapter.deleteAccountItem(pos);
+
             }
         }).attachToRecyclerView(recyclerView);
         mAdapter.setOnItemClickListener(new AccountListAdapter.OnItemClickListener() {

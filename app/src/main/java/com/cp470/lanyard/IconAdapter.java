@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 
 public class IconAdapter extends BaseAdapter {
     Context c;
@@ -37,10 +38,9 @@ public class IconAdapter extends BaseAdapter {
             convertView=inflater.inflate(R.layout.icon_button,null);
         }
 
-        ImageButton iconButton = (ImageButton) convertView.findViewById(R.id.iconImgBt);
+        ImageView iconButton = (ImageView) convertView.findViewById(R.id.iconImgBt);
         //assign the icon to the view
         iconButton.setImageResource(mIcons[position]);
-
         return convertView;
     }
 }

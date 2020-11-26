@@ -91,7 +91,7 @@ public class AccountListAdapter extends FirestoreRecyclerAdapter<AccountItem, Ac
 
     @Override
     protected void onBindViewHolder(@NonNull AccountViewHolder holder, int position, @NonNull AccountItem model) {
-        //holder.iconView.setImageResource(model.getImageResource());
+        holder.iconView.setImageResource(model.getImageResource());
         holder.accountTitleView.setText(model.getTitle());
         holder.uNameView.setText(model.getUserName());
         //holder.passView.setText(model.getPassword());

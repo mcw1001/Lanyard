@@ -13,6 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/placeholder"
+        android:onClick="showIconPicker"
         />
     <EditText
         android:id="@+id/edit_text_account_title"
