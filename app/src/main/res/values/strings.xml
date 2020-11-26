@@ -93,4 +93,8 @@
 
     <!--  ^^^ Alert Dialogs  ^^^    -->
 
+    <!-- DETAIL VIEW STRINGS -->
+    <string name="change_password_title">Password change recommended</string>
+    <string name="change_password_text">Your password has not been changed in some time. Would you like to change it now?</string>
+
 </resources>

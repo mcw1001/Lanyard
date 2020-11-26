@@ -2,13 +2,16 @@ package com.cp470.lanyard;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.accounts.Account;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.method.PasswordTransformationMethod;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -24,6 +27,8 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.Calendar;
 import java.util.Date;
 
 public class AccountDetailActivity extends AppCompatActivity {
@@ -102,6 +107,7 @@ public class AccountDetailActivity extends AppCompatActivity {
                         accountDetails = findViewById(R.id.account_details);
                         loadingBar.setVisibility(View.INVISIBLE);
                         accountDetails.setVisibility(View.VISIBLE);
+                        checkPasswordLastUpdated(creationDate);
 
                     } else {
                         Toast.makeText(AccountDetailActivity.this, "Error loading password", Toast.LENGTH_SHORT).show();
@@ -116,6 +122,40 @@ public class AccountDetailActivity extends AppCompatActivity {
             });
     }
 
+    public void goToEditAccount() {
+        Intent i = new Intent(this, AccountListItemDetailView.class);
+        i.putExtra("documentId", documentId);
+        startActivityForResult(i, 15);
+    }
+
+    public void checkPasswordLastUpdated(Date lastUpdated) {
+        // TODO user should be able to modify this setting
+        int MONTHS_BEFORE_EDIT = 1;
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.MONTH, -MONTHS_BEFORE_EDIT);
+        Date beforeNow = calendar.getTime();
+        // User's password has not been updated in awhile, suggest an update
+        if (beforeNow.compareTo(lastUpdated) > 0) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            // TODO put strings in values
+            LayoutInflater inflater = getLayoutInflater();
+            builder.setView(inflater.inflate(R.layout.password_reminder_dialog, null));
+            builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    goToEditAccount();
+                }
+            });
+            builder.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+
+                }
+            });
+            builder.show();
+        }
+    }
+
     // Toggles password visibility
     public void onTogglePasswordView(View view) {
         if (accountPassword.getTransformationMethod() == PasswordTransformationMethod.getInstance()) {
@@ -128,9 +168,7 @@ public class AccountDetailActivity extends AppCompatActivity {
     }
 
     public void onEditAccountClick(View view) {
-        Intent i = new Intent(this, AccountListItemDetailView.class);
-        i.putExtra("documentId", documentId);
-        startActivityForResult(i, 15);
+        goToEditAccount();
     }
 
     @Override
