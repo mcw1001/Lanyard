@@ -67,7 +67,7 @@
     <!--    LOGIN ACTIVITY STRINGS      -->
     <string name="loginBtn">login</string>
     <string name="registerBtn">register</string>
-    <string name="usernameTxt">Username</string>
+    <string name="usernameTxt">Username/email</string>
     <string name="passwordTxt">Password</string>
 
     <string name="emailHint">email@example.com</string>
@@ -92,6 +92,26 @@
     <string name="alertTitle">ATTENTION</string>
 
     <!--  ^^^ Alert Dialogs  ^^^    -->
+
+
+    <!--    Account Creation Strings-->
+    <string name="generatePass">Generate Password</string>
+    <string name="storePass">Store Password</string>
+    <string name="generationSettings">Generation Settings</string>
+    <string name="accountTitle">Website Name</string>
+    <string name="settingPrefsName">password_gen_settings</string>
+    <string name="emptyTitleWarning">Title is empty!</string>
+
+    <string name="passwordSize">Password size</string>
+
+    <string name="lower">Lowercase (abc)</string>
+    <string name="upper">Uppercase (ABC)</string>
+    <string name="symbol">Symbols (/\&amp;$%^)</string>
+    <string name="number">Numbers (1234)</string>
+    <string name="examplePass">Example Password:</string>
+    <string name="noChecksWarning">You have no parameters selected!</string>
+    <string name="passSizeWarning">Your password is too small.</string>
+    <!--    Account Creation Strings-->
 
     <!-- DETAIL VIEW STRINGS -->
     <string name="change_password_title">Password change recommended</string>
