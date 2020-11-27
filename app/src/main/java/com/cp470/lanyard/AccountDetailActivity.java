@@ -127,7 +127,6 @@ public class AccountDetailActivity extends AppCompatActivity {
         // User's password has not been updated in awhile, suggest an update
         if (beforeNow.compareTo(lastUpdated) > 0) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            // TODO put strings in values
             LayoutInflater inflater = getLayoutInflater();
             builder.setView(inflater.inflate(R.layout.password_reminder_dialog, null));
             builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
