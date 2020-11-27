@@ -108,10 +108,9 @@ public class AccountListItemDetailView extends AppCompatActivity {
 
         db.collection("accounts").document(documentId).set(accountItem, SetOptions.merge());
         Toast.makeText(AccountListItemDetailView.this, "Password Updated", Toast.LENGTH_SHORT).show();
-        Intent intent = new Intent(AccountListItemDetailView.this, AccountListActivity.class);
-        // so you cannot go back to login screen
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(intent);
+        // TODO give proper result code
+        this.setResult(1);
+        finish();
 
     }
 }

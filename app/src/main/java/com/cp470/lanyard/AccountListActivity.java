@@ -105,7 +105,7 @@ public class AccountListActivity extends AppCompatActivity {
                 String documentId = documentSnapshot.getId(); //the name of the item in the db
                 System.out.println(documentId);
                 Toast.makeText(AccountListActivity.this, "click", Toast.LENGTH_SHORT);
-                Intent intent = new Intent(AccountListActivity.this, AccountListItemDetailView.class);
+                Intent intent = new Intent(AccountListActivity.this, AccountDetailActivity.class);
                 intent.putExtra("documentId", documentId);
                 startActivity(intent);
             }

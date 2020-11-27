@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/listBackground"
+    tools:context=".AccountDetailActivity"
+    android:orientation="horizontal">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="20dp">
+
+        <ProgressBar
+            android:id="@+id/detail_loading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="visible"
+            android:indeterminateTint="@color/listBackground"/>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/account_details"
+            android:visibility="invisible"
+            android:layout_marginRight="25dp" >
+
+            <!-- Icon -->
+            <ImageView
+                android:id="@+id/detailIconAccountItem"
+                android:layout_width="78dp"
+                android:layout_height="93dp"
+                android:layout_marginLeft="25dp"
+                android:src="@drawable/placeholder"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/detailUserNameTitleAccountItem"/>
+
+            <!-- Title -->
+            <TextView
+                android:id="@+id/detailTitleAccountItem"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="30dp"
+                android:text="Title"
+                android:textColor="@color/mainTextColor"
+                android:textSize="@dimen/listTitle"
+                android:textStyle="bold"
+                app:layout_constraintLeft_toRightOf="@id/detailIconAccountItem"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/detailUserNameTitleAccountItem"/>
+
+            <!-- Username -->
+            <TextView
+                android:id="@+id/detailUserNameTitleAccountItem"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/detailTextSpacing"
+                android:text="@string/listUserTitle"
+                android:textColor="@color/mainTextColor"
+                android:textSize="@dimen/detailText"
+                android:textStyle="bold"
+                app:layout_constraintLeft_toLeftOf="@id/detailIconAccountItem"
+                app:layout_constraintBottom_toTopOf="@id/detailUserNameAccountItem"/>
+
+            <TextView
+                android:id="@+id/detailUserNameAccountItem"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/detailTextSpacing"
+                android:text="empty user name"
+                android:singleLine="false"
+                android:textSize="@dimen/detailText"
+                app:layout_constraintLeft_toLeftOf="@id/detailIconAccountItem"
+                app:layout_constraintBottom_toTopOf="@id/detailPassTitleAccountItem" />
+
+            <!-- Password -->
+            <TextView
+                android:id="@+id/detailPassTitleAccountItem"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/detailTextSpacing"
+                android:text="@string/listPassTitle"
+                android:textColor="@color/mainTextColor"
+                android:textSize="@dimen/detailText"
+                android:textStyle="bold"
+                app:layout_constraintLeft_toLeftOf="@id/detailIconAccountItem"
+                app:layout_constraintBottom_toTopOf="@id/detailPassAccountItem" />
+
+            <!-- Password visibility toggle -->
+            <ImageView
+                android:id="@+id/detail_toggle_password"
+                android:src="@drawable/ic_baseline_visibility_24"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginBottom="@dimen/detailTextSpacing"
+                app:layout_constraintLeft_toRightOf="@id/detailPassTitleAccountItem"
+                app:layout_constraintBottom_toTopOf="@id/detailPassAccountItem"
+                android:onClick="onTogglePasswordView" />
+
+            <TextView
+                android:id="@+id/detailPassAccountItem"
+                android:layout_width="0dp"
+                android:maxWidth="200dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/detailTextSpacing"
+                android:text="empty password"
+                android:textSize="@dimen/detailText"
+                android:singleLine="false"
+                app:layout_constraintLeft_toLeftOf="@id/detailIconAccountItem"
+                app:layout_constraintBottom_toTopOf="@id/detailCreationDateTitle" />
+
+            <!-- Creation date -->
+            <TextView
+                android:id="@+id/detailCreationDateTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/detailTextSpacing"
+                android:text="Creation Date:"
+                android:textColor="@color/mainTextColor"
+                android:textSize="@dimen/detailText"
+                android:textStyle="bold"
+                app:layout_constraintLeft_toLeftOf="@id/detailIconAccountItem"
+                app:layout_constraintBottom_toTopOf="@id/detailCreationDate" />
+
+            <TextView
+                android:id="@+id/detailCreationDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/detailTextSpacing"
+                android:text="empty creation date"
+                android:textSize="@dimen/detailText"
+                app:layout_constraintLeft_toLeftOf="@id/detailIconAccountItem"
+                app:layout_constraintBottom_toBottomOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/editAccountBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+        android:src="@drawable/ic_baseline_edit_24"
+        android:layout_margin="16dp"
+        android:backgroundTint="@color/keyYellowAccentColor"
+        app:fabSize="normal"
+        android:onClick="onEditAccountClick" />
+
+</FrameLayout>

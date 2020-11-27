@@ -6,6 +6,7 @@
     <dimen name="listIconW">50dp</dimen>
     <dimen name="startMarginList">10dp</dimen>
     <dimen name="listTextSpacing">7dp</dimen>
-
+    <dimen name="detailText">18sp</dimen>
+    <dimen name="detailTextSpacing">15dp</dimen>
 
 </resources>
