@@ -20,7 +20,9 @@ import androidx.fragment.app.DialogFragment;
 
 public class IconPicker extends AppCompatDialogFragment {
     GridView gv;
-    int[] iconVals = {R.drawable.placeholder,R.drawable.ic_iconfinder_1_youtube_colored_svg_5296521,R.drawable.ic_iconfinder_2018_social_media_popular_app_logo_facebook_3225194,R.drawable.ic_iconfinder_2018_social_media_popular_app_logo_instagram_3225191,R.drawable.ic_iconfinder_2018_social_media_popular_app_logo_reddit_3225187};
+    int[] iconVals = {R.drawable.placeholder,R.drawable.ic_iconfinder_1_youtube_colored_svg_5296521,R.drawable.ic_iconfinder_2018_social_media_popular_app_logo_facebook_3225194,R.drawable.ic_iconfinder_2018_social_media_popular_app_logo_instagram_3225191,R.drawable.ic_iconfinder_2018_social_media_popular_app_logo_reddit_3225187,
+            R.drawable.ic_iconfinder_387_xbox_logo_4375141, R.drawable.ic_iconfinder_amazon_2062062,R.drawable.ic_iconfinder_card_credit_mastercard_bank_debit_2908223,R.drawable.ic_iconfinder_credit_bank_card_532624,R.drawable.ic_iconfinder_disney_plus_2_7033669,R.drawable.ic_iconfinder_gmail_1220340,R.drawable.ic_iconfinder_netflix_221245,
+            R.drawable.ic_iconfinder_new_google_favicon_682665,R.drawable.ic_iconfinder_outlook_3069714,R.drawable.ic_iconfinder_playstation_5_seeklogo_com_5_7048152,R.drawable.ic_iconfinder_social_57_1591872,R.drawable.ic_iconfinder_steam_logo_4177739,R.drawable.ic_iconfinder_twitter_circle_294709,R.drawable.ic_iconfinder_we_chat_social_2492622,R.drawable.list_icon3};
     private int iconVal;
     private IconDialogListener listener;
     @NonNull
@@ -54,7 +56,7 @@ public class IconPicker extends AppCompatDialogFragment {
         gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getActivity(),"Selected "+iconVals[position],Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getActivity(),"Selected "+iconVals[position],Toast.LENGTH_SHORT).show();
                 iconVal=iconVals[position];
             }
         });

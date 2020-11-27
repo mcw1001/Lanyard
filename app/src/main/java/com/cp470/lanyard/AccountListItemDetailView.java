@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,6 +38,7 @@ public class AccountListItemDetailView extends AppCompatActivity {
     private EditText editTextAccountTitle;
     private EditText editTextAccountUserName;
     private EditText editTextAccountPassword;
+    private ImageView imageViewAccountImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +51,7 @@ public class AccountListItemDetailView extends AppCompatActivity {
         editTextAccountTitle = findViewById(R.id.edit_text_account_title_DETAILVIEW);
         editTextAccountUserName = findViewById(R.id.edit_text_account_userName_DETAILVIEW);
         editTextAccountPassword = findViewById(R.id.edit_text_account_password_DETAILVIEW);
+        imageViewAccountImage = findViewById(R.id.image_view_account_image_DETAILVIEW);
 
         loadAccountItem();
     }
@@ -71,6 +74,8 @@ public class AccountListItemDetailView extends AppCompatActivity {
                             editTextAccountTitle.setText(accountItem.getTitle());
                             editTextAccountUserName.setText(accountItem.getUserName());
                             editTextAccountPassword.setText(accountItem.getPassword());
+                            imageViewAccountImage.setImageResource(accountItem.getImageResource());
+                            imageViewAccountImage.setTag(accountItem.getImageResource());//use this because there is no get imageResource
                         } else {
                             Toast.makeText(AccountListItemDetailView.this, "Error loading password", Toast.LENGTH_SHORT).show();
                         }
@@ -97,13 +102,11 @@ public class AccountListItemDetailView extends AppCompatActivity {
         String accountTitle = editTextAccountTitle.getText().toString();
         String accountUserName = editTextAccountUserName.getText().toString();
         String accountPassword = editTextAccountPassword.getText().toString();
-
+        int imageResource = (int) imageViewAccountImage.getTag();
         FirebaseUser currentUser = mAuth.getInstance().getCurrentUser();
 
         Timestamp timestamp = Timestamp.now();
 
-        //TODO change imageResource
-        int imageResource = 0;
         AccountItem accountItem = new AccountItem(currentUser, imageResource, accountTitle, accountUserName, accountPassword, timestamp);
 
         db.collection("accounts").document(documentId).set(accountItem, SetOptions.merge());
