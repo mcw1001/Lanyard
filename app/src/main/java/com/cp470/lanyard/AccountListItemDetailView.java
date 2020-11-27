@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,7 +27,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
 
-public class AccountListItemDetailView extends AppCompatActivity {
+public class AccountListItemDetailView extends AppCompatActivity implements IconPicker.IconDialogListener {
 
     private static final String TAG = "AccountListItemDetailView";
 
@@ -38,7 +39,9 @@ public class AccountListItemDetailView extends AppCompatActivity {
     private EditText editTextAccountTitle;
     private EditText editTextAccountUserName;
     private EditText editTextAccountPassword;
-    private ImageView imageViewAccountImage;
+    private ImageButton imageViewAccountImage;
+    private int imageResource;// resource int for icon in list view
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +54,7 @@ public class AccountListItemDetailView extends AppCompatActivity {
         editTextAccountTitle = findViewById(R.id.edit_text_account_title_DETAILVIEW);
         editTextAccountUserName = findViewById(R.id.edit_text_account_userName_DETAILVIEW);
         editTextAccountPassword = findViewById(R.id.edit_text_account_password_DETAILVIEW);
-        imageViewAccountImage = findViewById(R.id.image_view_account_image_DETAILVIEW);
+        imageViewAccountImage = findViewById(R.id.image_button_account_image_DETAILVIEW);
 
         loadAccountItem();
     }
@@ -75,7 +78,8 @@ public class AccountListItemDetailView extends AppCompatActivity {
                             editTextAccountUserName.setText(accountItem.getUserName());
                             editTextAccountPassword.setText(accountItem.getPassword());
                             imageViewAccountImage.setImageResource(accountItem.getImageResource());
-                            imageViewAccountImage.setTag(accountItem.getImageResource());//use this because there is no get imageResource
+                            imageViewAccountImage.setTag(accountItem.getImageResource());//use this because there is no getter for imageResource
+                            imageResource=accountItem.getImageResource();
                         } else {
                             Toast.makeText(AccountListItemDetailView.this, "Error loading password", Toast.LENGTH_SHORT).show();
                         }
@@ -115,5 +119,26 @@ public class AccountListItemDetailView extends AppCompatActivity {
         this.setResult(1);
         finish();
 
+    }
+    public void showIconPicker(View view) {
+        /**
+         * --------------------------------------
+            Launches the icon picker fragment
+           --------------------------------------
+         */
+        IconPicker iconPicker = new IconPicker();
+        iconPicker.show(getSupportFragmentManager(),"Icon picker");
+    }
+
+    @Override
+    public void applyIcon(int resourceId) {
+        /**
+         * --------------------------------------
+         Interfaces with icon picker fragment
+         --------------------------------------
+         */
+        imageResource=resourceId;//update resorce id
+        imageViewAccountImage.setImageResource(imageResource);
+        imageViewAccountImage.setTag(resourceId);//use this because there is no getter for imageResource
     }
 }

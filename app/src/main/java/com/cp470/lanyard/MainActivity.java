@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity implements IconPicker.IconDi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        imageResource=R.drawable.placeholder;//default icon
+        imageResource=R.drawable.ic_iconfinder_new_google_favicon_682665;//default icon
         editTextAccountTitle = findViewById(R.id.edit_text_account_title);
         editTextAccountUserName = findViewById(R.id.edit_text_account_userName);
         editTextAccountPassword = findViewById(R.id.edit_text_account_password);
@@ -143,12 +143,22 @@ public class MainActivity extends AppCompatActivity implements IconPicker.IconDi
     }
 
     public void showIconPicker(View view) {
+        /**
+         * --------------------------------------
+         Launches the icon picker fragment
+         --------------------------------------
+         */
         IconPicker iconPicker = new IconPicker();
         iconPicker.show(getSupportFragmentManager(),"Icon picker");
     }
 
     @Override
     public void applyIcon(int resourceId) {
+        /**
+         * --------------------------------------
+         Interfaces with icon picker fragment
+         --------------------------------------
+         */
         imageResource=resourceId;//update resorce id
         ImageButton imageButton = (ImageButton) findViewById(R.id.iconPickerBt);
         imageButton.setImageResource(imageResource);

@@ -13,6 +13,8 @@
         android:layout_height="wrap_content">
 
         <ImageButton
+            android:id="@+id/iconPickerBt"
+            android:onClick="showIconPicker"
             android:layout_width="49dp"
             android:layout_height="49dp"
             android:layout_marginStart="1dp"
@@ -22,7 +24,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/edit_text_account_title"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/common_google_signin_btn_icon_dark" />
+            app:srcCompat="@drawable/ic_iconfinder_new_google_favicon_682665" />
 
         <EditText
             android:id="@+id/edit_text_account_title"

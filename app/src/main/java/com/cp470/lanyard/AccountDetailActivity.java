@@ -79,9 +79,8 @@ public class AccountDetailActivity extends AppCompatActivity {
                         AccountItem accountItem = documentSnapshot.toObject(AccountItem.class);
 
                         accountTitle.setText(accountItem.getTitle());
-                        // accountIcon.setImageResource(accountItem.getImageResource());
-                        // TODO swap out for actual icon
-                        accountIcon.setImageResource(R.drawable.placeholder);
+                        accountIcon.setImageResource(accountItem.getImageResource());
+
                         accountUsername.setText(accountItem.getUserName());
                         accountPassword.setText(accountItem.getPassword());
                         Date creationDate = accountItem.getTimestamp().toDate();
