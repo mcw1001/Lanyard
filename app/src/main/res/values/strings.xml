@@ -13,6 +13,7 @@
     <string name="menuSortTitle">Sort</string>
     <string name="menuHelpTitle">Help</string>
     <string name="menuInfoTitle">Info</string>
+    <string name="menuSettingsTitle">Settings</string>
     <string name="menuLogoutTitle">Log out</string>
     <string name="menuPopSortTitle">Sort by</string>
 

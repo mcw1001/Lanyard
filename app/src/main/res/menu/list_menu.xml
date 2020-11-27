@@ -25,4 +25,8 @@
         app:showAsAction="never"
         android:title="@string/menuInfoTitle"
         />
+    <item android:id="@+id/menuSettingsBt"
+        app:showAsAction="never"
+        android:title="@string/menuSettingsTitle"
+        />
 </menu>

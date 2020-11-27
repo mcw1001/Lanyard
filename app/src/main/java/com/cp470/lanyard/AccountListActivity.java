@@ -13,16 +13,19 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -257,6 +260,9 @@ public class AccountListActivity extends AppCompatActivity {
                 //Log.i("AccountList_menu", "onOptionsItemSelected: help");
                 showInfoBox(R.string.menuHelpTitle,R.array.helpBoxText);
                 return true;
+            case R.id.menuSettingsBt:
+                openSettings();
+                return true;
 
         }
         return super.onOptionsItemSelected(item);
@@ -354,6 +360,38 @@ public class AccountListActivity extends AppCompatActivity {
         dialog.setCanceledOnTouchOutside(true);
         dialog.show();
 
+    }
+
+    private void openSettings() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = getLayoutInflater();
+        builder.setView(inflater.inflate(R.layout.settings, null));
+        builder.setPositiveButton(R.string.ok, null);
+        builder.setNegativeButton(R.string.cancel, null);
+        AlertDialog dialog = builder.create();
+        dialog.setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(DialogInterface dialog) {
+                Button button = ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_POSITIVE);
+                button.setOnClickListener(new View.OnClickListener() {
+
+                    @Override
+                    public void onClick(View view) {
+                        TextView monthErr = findViewById(R.id.month_interval_error);
+                        EditText month = findViewById(R.id.month_interval);
+                        String monthStr = month.getText().toString();
+                        int monthVal = Integer.parseInt(monthStr);
+                        if (monthVal < 0 || monthVal > 12) {
+                            monthErr.setVisibility(View.VISIBLE);
+                        } else {
+                            // TODO Either save me to shared prefs or firebase
+                            dialog.dismiss();
+                        }
+                    }
+                });
+            }
+        });
+        dialog.show();
     }
 
     //====================== SORT AND SEARCH FUNCTIONS ========================================
