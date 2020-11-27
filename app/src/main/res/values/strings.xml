@@ -67,7 +67,7 @@
     <!--    LOGIN ACTIVITY STRINGS      -->
     <string name="loginBtn">login</string>
     <string name="registerBtn">register</string>
-    <string name="usernameTxt">Username</string>
+    <string name="usernameTxt">Username/email</string>
     <string name="passwordTxt">Password</string>
 
     <string name="emailHint">email@example.com</string>
@@ -96,6 +96,7 @@
 
     <!--    Account Creation Strings-->
     <string name="generatePass">Generate Password</string>
+    <string name="storePass">Store Password</string>
     <string name="generationSettings">Generation Settings</string>
     <string name="accountTitle">Website Name</string>
     <string name="settingPrefsName">password_gen_settings</string>

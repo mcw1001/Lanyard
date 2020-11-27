@@ -110,9 +110,9 @@ public class AccountListAdapter extends FirestoreRecyclerAdapter<AccountItem, Ac
         getSnapshots().getSnapshot(position).getReference().delete();
     }
 
-    public void filterList(ArrayList<AccountItem> filteredList){
-        //update list that is shown with new filtered list
-        mAccountList = filteredList;
-        notifyDataSetChanged();
-    }
+//    public void filterList(ArrayList<AccountItem> filteredList){
+//        //update list that is shown with new filtered list
+//        mAccountList = filteredList;
+//        notifyDataSetChanged();
+//    }
 }

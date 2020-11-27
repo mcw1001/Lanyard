@@ -170,19 +170,19 @@ public class AccountListActivity extends AppCompatActivity {
         Intent i = new Intent(this, MainActivity.class);
         startActivityForResult(i, 10);
     }
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data){
-        super.onActivityResult(requestCode,resultCode,data);
-        //TODO NOTE: the resulting new account item should be sent to database, then refreshed
-        if(resultCode==10 && data.hasExtra("NewAccountItem")){
-            Bundle bundle = data.getExtras();//getIntent().getExtras();
-            AccountItem account = (AccountItem) bundle.getParcelable("NewAccountItem");
-            Log.i("onActivityResult","account received:"+account.getTitle());
-            //TODO MORE HERE
-            viewItemsList.add(account);
-            mAdapter.notifyDataSetChanged(); //do this after?
-        }
-    }
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, Intent data){
+//        super.onActivityResult(requestCode,resultCode,data);
+//        //TODO NOTE: the resulting new account item should be sent to database, then refreshed
+//        if(resultCode==10 && data.hasExtra("NewAccountItem")){
+//            Bundle bundle = data.getExtras();//getIntent().getExtras();
+//            AccountItem account = (AccountItem) bundle.getParcelable("NewAccountItem");
+//            Log.i("onActivityResult","account received:"+account.getTitle());
+//            //TODO MORE HERE
+//            viewItemsList.add(account);
+//            mAdapter.notifyDataSetChanged(); //do this after?
+//        }
+//    }
 
     public void logout() {
         /**
