@@ -13,6 +13,8 @@
         <activity android:name=".AccountListItemDetailView"></activity>
         <activity android:name=".GenerationSettingsActivity"></activity>
         <activity android:name=".AccountItemCreator" />
+        <activity android:name=".IconPickerActivity"></activity>
+        <activity android:name=".AccountListItemDetailView" />
         <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

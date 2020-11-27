@@ -1,13 +1,14 @@
 package com.cp470.lanyard;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -22,14 +23,10 @@ import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.ServerTimestamp;
 
-import java.util.HashMap;
-import java.util.Map;
-
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements IconPicker.IconDialogListener {
     private static final String TAG = "MainActivity";
 
     // Firebase stuff
@@ -58,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        imageResource=R.drawable.placeholder;//default icon
         editTextAccountTitle = findViewById(R.id.edit_text_account_title);
         editTextAccountUserName = findViewById(R.id.edit_text_account_userName);
         editTextAccountPassword = findViewById(R.id.edit_text_account_password);
@@ -118,8 +115,9 @@ public class MainActivity extends AppCompatActivity {
             Timestamp timestamp = Timestamp.now();
 
 
-            int imageResource = 0;
-            AccountItem accountItem = new AccountItem(currentUser, imageResource, accountTitle, accountUserName, accountPassword, timestamp);
+
+        //int imageResource = 0;
+        AccountItem accountItem = new AccountItem(currentUser, imageResource, accountTitle, accountUserName, accountPassword, timestamp);
 
             // Add a new document with a generated ID
             db.collection("accounts")
@@ -142,5 +140,17 @@ public class MainActivity extends AppCompatActivity {
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
         }
+    }
+
+    public void showIconPicker(View view) {
+        IconPicker iconPicker = new IconPicker();
+        iconPicker.show(getSupportFragmentManager(),"Icon picker");
+    }
+
+    @Override
+    public void applyIcon(int resourceId) {
+        imageResource=resourceId;//update resorce id
+        ImageButton imageButton = (ImageButton) findViewById(R.id.iconPickerBt);
+        imageButton.setImageResource(imageResource);
     }
 }

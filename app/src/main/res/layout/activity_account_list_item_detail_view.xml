@@ -7,6 +7,11 @@
     android:orientation="vertical"
     android:padding="16dp"
     tools:context=".AccountListItemDetailView">
+    <ImageView
+        android:id="@+id/image_view_account_image_DETAILVIEW"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/placeholder"/>
     <EditText
         android:id="@+id/edit_text_account_title_DETAILVIEW"
         android:layout_width="match_parent"
