@@ -64,15 +64,15 @@
 
         <Button
             android:id="@+id/passGenButton"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="100dp"
+            android:layout_marginStart="1dp"
             android:layout_marginTop="1dp"
-            android:layout_marginEnd="1dp"
+            android:layout_marginEnd="49dp"
             android:onClick="onGenerateClicked"
             android:text="@string/generatePass"
-            app:layout_constraintEnd_toStartOf="@+id/passGenSettingsButton"
-            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -82,7 +82,7 @@
             android:layout_height="49dp"
             android:layout_marginStart="1dp"
             android:layout_marginTop="1dp"
-            android:layout_marginEnd="92dp"
+            android:layout_marginEnd="1dp"
             android:onClick="onSettingsClicked"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/passGenButton"

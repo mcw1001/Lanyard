@@ -112,6 +112,7 @@
     <string name="examplePass">Example Password:</string>
     <string name="noChecksWarning">You have no parameters selected!</string>
     <string name="passSizeWarning">Your password is too small.</string>
+    <string name="updateEditButton">Update</string>
     <!--    Account Creation Strings-->
 
     <!-- DETAIL VIEW STRINGS -->

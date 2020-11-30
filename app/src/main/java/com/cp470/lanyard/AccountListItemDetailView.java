@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -42,7 +43,12 @@ public class AccountListItemDetailView extends AppCompatActivity implements Icon
     private ImageButton imageViewAccountImage;
     private int imageResource;// resource int for icon in list view
 
-
+    private String settingPrefsFileName;
+    private Boolean upperCheck;
+    private Boolean lowerCheck;
+    private Boolean numCheck;
+    private Boolean symbolCheck;
+    private int passwordSize;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,6 +61,9 @@ public class AccountListItemDetailView extends AppCompatActivity implements Icon
         editTextAccountUserName = findViewById(R.id.edit_text_account_userName_DETAILVIEW);
         editTextAccountPassword = findViewById(R.id.edit_text_account_password_DETAILVIEW);
         imageViewAccountImage = findViewById(R.id.image_button_account_image_DETAILVIEW);
+
+        settingPrefsFileName = getString(R.string.settingPrefsName);
+        pullPrefs();
 
         loadAccountItem();
     }
@@ -91,6 +100,27 @@ public class AccountListItemDetailView extends AppCompatActivity implements Icon
 
                     }
                 });
+    }
+
+    public void pullPrefs(){
+        SharedPreferences accountPrefs = getSharedPreferences(settingPrefsFileName, MODE_PRIVATE);
+        upperCheck=accountPrefs.getBoolean("upperCheck",false);
+        lowerCheck=accountPrefs.getBoolean("lowerCheck",true);
+        numCheck=accountPrefs.getBoolean("numCheck",true);
+        symbolCheck=accountPrefs.getBoolean("symbolCheck",false);
+        passwordSize=accountPrefs.getInt("passwordSize",10);
+//        Log.i(TAG,"pullPrefs: upperCheck:"+upperCheck+" lowerCheck:"+lowerCheck+" symbolCheck:"+symbolCheck+" numCheck:"+numCheck+" passwordSize:"+passwordSize);
+    }
+
+    public void onGenerateClicked(android.view.View view){
+        pullPrefs();
+        String p = PasswordGenerator.generate(upperCheck,lowerCheck,symbolCheck,numCheck,passwordSize);
+        editTextAccountPassword.setText(p);
+    }
+
+    public void onSettingsClicked(View view){
+        Intent intent = new Intent(AccountListItemDetailView.this,GenerationSettingsActivity.class);
+        startActivity(intent);
     }
 
     public void editPassword(View view) {
