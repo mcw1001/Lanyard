@@ -6,6 +6,7 @@ import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.ServerTimestamp;
+import com.google.type.Date;
 
 import java.time.LocalDateTime; // import the LocalDateTime class
 
@@ -38,19 +39,23 @@ public class AccountItem {
     private String userIdMaster;
     @ServerTimestamp
     private Timestamp timestamp;
+    private Timestamp expirationDate;
+    private int priority;
 
     public AccountItem() {
         //public no-arg constructor needed for Firestore ¯\_(ツ)_/¯
         //See google docs if you want to learn more
     }
 
-    public AccountItem(FirebaseUser userIdMaster, int imageResource, String title, String userName, String password, Timestamp timestamp) {
+    public AccountItem(FirebaseUser userIdMaster, int imageResource, String title, String userName, String password, Timestamp timestamp, Timestamp expirationDate, int priority) {
         this.userIdMaster = userIdMaster.getUid();
         this.imageResource = imageResource;
         this.title = title;
         this.userName = userName;
         this.password = password;
         this.timestamp = timestamp;
+        this.expirationDate = expirationDate;
+        this.priority = priority;
     }
 
     public int getImageResource() {
@@ -101,5 +106,22 @@ public class AccountItem {
     public void setTimestamp(Timestamp timestamp) {
         this.timestamp = timestamp;
     }
+
+    public Timestamp getExpirationDate() {
+        return expirationDate;
+    }
+
+    public void setExpirationDate(Timestamp expirationDate) {
+        this.expirationDate = expirationDate;
+    }
+
+    public int getPriority() {
+        return priority;
+    }
+
+    public void setPriority(int priority) {
+        this.priority = priority;
+    }
+
 
 }

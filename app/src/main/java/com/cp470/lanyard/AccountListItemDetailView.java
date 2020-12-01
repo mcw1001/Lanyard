@@ -28,6 +28,9 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
 
+import java.util.Calendar;
+import java.util.Date;
+
 public class AccountListItemDetailView extends AppCompatActivity implements IconPicker.IconDialogListener {
 
     private static final String TAG = "AccountListItemDetailView";
@@ -141,7 +144,15 @@ public class AccountListItemDetailView extends AppCompatActivity implements Icon
 
         Timestamp timestamp = Timestamp.now();
 
-        AccountItem accountItem = new AccountItem(currentUser, imageResource, accountTitle, accountUserName, accountPassword, timestamp);
+        Calendar cal = Calendar.getInstance();
+        cal.set(2020, Calendar.DECEMBER, 31); //Year, month and day of month
+        Date date = cal.getTime();
+        Timestamp expirationDate = new Timestamp(date);
+
+        int priority = 0;
+
+
+        AccountItem accountItem = new AccountItem(currentUser, imageResource, accountTitle, accountUserName, accountPassword, timestamp, expirationDate, priority);
 
         db.collection("accounts").document(documentId).set(accountItem, SetOptions.merge());
         Toast.makeText(AccountListItemDetailView.this, "Password Updated", Toast.LENGTH_SHORT).show();

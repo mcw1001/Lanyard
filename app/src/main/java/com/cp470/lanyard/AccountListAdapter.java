@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 
 public class AccountListAdapter extends FirestoreRecyclerAdapter<AccountItem, AccountListAdapter.AccountViewHolder> {
     private OnItemClickListener mListener;
@@ -109,10 +110,17 @@ public class AccountListAdapter extends FirestoreRecyclerAdapter<AccountItem, Ac
          */
         getSnapshots().getSnapshot(position).getReference().delete();
     }
+    public void incrementAccountItemPriority(int position) {
+        /**
+         -------------------------------------------------------
+         Required for an AccountItem delete in the Firebase
+         Firestore.
+         -------------------------------------------------------
+         Parameters:
+         int position - The position of the item to be deleted
+         -------------------------------------------------------
+         */
+        getSnapshots().getSnapshot(position).getReference().update("priority", FieldValue.increment(1));
+    }
 
-//    public void filterList(ArrayList<AccountItem> filteredList){
-//        //update list that is shown with new filtered list
-//        mAccountList = filteredList;
-//        notifyDataSetChanged();
-//    }
 }

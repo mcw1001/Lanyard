@@ -74,7 +74,7 @@ public class AccountListActivity extends AppCompatActivity {
          */
 
         String currentUser = mAuth.getInstance().getCurrentUser().getUid();
-        Query query = accountRef.whereEqualTo("userIdMaster", currentUser).orderBy("title", Query.Direction.ASCENDING);
+        Query query = accountRef.whereEqualTo("userIdMaster", currentUser).orderBy("priority", Query.Direction.DESCENDING);
 
         FirestoreRecyclerOptions<AccountItem> options = new FirestoreRecyclerOptions.Builder<AccountItem>()
                 .setQuery(query, AccountItem.class)
@@ -106,7 +106,6 @@ public class AccountListActivity extends AppCompatActivity {
             public void onItemClick(DocumentSnapshot documentSnapshot, int position) {
                 String documentId = documentSnapshot.getId(); //the name of the item in the db
                 System.out.println(documentId);
-                Toast.makeText(AccountListActivity.this, "click", Toast.LENGTH_SHORT);
                 Intent intent = new Intent(AccountListActivity.this, AccountDetailActivity.class);
                 intent.putExtra("documentId", documentId);
                 startActivity(intent);
@@ -116,12 +115,11 @@ public class AccountListActivity extends AppCompatActivity {
         mAdapter.setOnItemLongClickListener(new AccountListAdapter.OnItemLongClickListener() {
             @Override
             public void onItemLongClick(DocumentSnapshot documentSnapshot, int position) {
-                AccountItem accountItem = documentSnapshot.toObject(AccountItem.class); //the name of the item in the db
-                //Log.d("copyclick", "onItemLongClick: press");
+                AccountItem accountItem = documentSnapshot.toObject(AccountItem.class); //the item in the db
+                mAdapter.incrementAccountItemPriority(position);
                 onCopyClick(accountItem.getTitle(), accountItem.getPassword());
             }
         });
-
     }
 
 
@@ -140,14 +138,6 @@ public class AccountListActivity extends AppCompatActivity {
     }
 
     public void onCopyClick(String title, String password) {
-
-        //View card = (View) view.getParent();
-        //get title of account
-        //TextView titleView = (TextView) card.findViewById(R.id.titleAccountItem);
-        //String title = titleView.getText().toString();
-        //get password
-        //TextView passView = (TextView) card.findViewById(R.id.passAccountItem);
-        //String password = passView.getText().toString();
 
         //copy to clipboard
         ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
