@@ -132,7 +132,7 @@ public class LoginActivity extends AppCompatActivity {
                     // This hides the keyboard in the case it is left open and they click the login button
                     InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-                    Toast.makeText(LoginActivity.this, task.getException().toString(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                     inputUsernameMaster.setText("");
                     inputPasswordMaster.setText("");
                     mLoadingBar.dismiss();
@@ -179,7 +179,7 @@ public class LoginActivity extends AppCompatActivity {
                     InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
 
-                    Toast.makeText(LoginActivity.this, task.getException().toString(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                     inputUsernameMaster.setText("");
                     inputPasswordMaster.setText("");
                     mLoadingBar.dismiss();

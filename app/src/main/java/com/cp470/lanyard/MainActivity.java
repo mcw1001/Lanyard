@@ -19,12 +19,16 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.ServerTimestamp;
+
+import java.util.Calendar;
+import java.util.Date;
 
 public class MainActivity extends AppCompatActivity implements IconPicker.IconDialogListener {
     private static final String TAG = "MainActivity";
@@ -114,10 +118,18 @@ public class MainActivity extends AppCompatActivity implements IconPicker.IconDi
 
             Timestamp timestamp = Timestamp.now();
 
+            Calendar cal = Calendar.getInstance();
+            cal.set(2020, Calendar.DECEMBER, 31); //Year, month and day of month
+            Date date = cal.getTime();
 
 
-        //int imageResource = 0;
-        AccountItem accountItem = new AccountItem(currentUser, imageResource, accountTitle, accountUserName, accountPassword, timestamp);
+            Timestamp expirationDate = new Timestamp(date);
+
+
+            int priority = 0;
+
+            AccountItem accountItem = new AccountItem(currentUser, imageResource, accountTitle, accountUserName, accountPassword, timestamp, expirationDate, priority);
+
 
             // Add a new document with a generated ID
             db.collection("accounts")
