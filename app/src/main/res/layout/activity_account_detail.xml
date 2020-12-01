@@ -121,12 +121,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/detailTextSpacing"
-                android:text="Creation Date:"
+                android:text="@string/creationDate"
                 android:textColor="@color/mainTextColor"
                 android:textSize="@dimen/detailText"
                 android:textStyle="bold"
-                app:layout_constraintLeft_toLeftOf="@id/detailIconAccountItem"
-                app:layout_constraintBottom_toTopOf="@id/detailCreationDate" />
+                app:layout_constraintBottom_toTopOf="@id/detailCreationDate"
+                app:layout_constraintLeft_toLeftOf="@id/detailIconAccountItem" />
 
             <TextView
                 android:id="@+id/detailCreationDate"

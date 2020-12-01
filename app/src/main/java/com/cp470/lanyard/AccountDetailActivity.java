@@ -86,12 +86,12 @@ public class AccountDetailActivity extends AppCompatActivity {
                         Date creationDate = accountItem.getTimestamp().toDate();
                         SimpleDateFormat format = new SimpleDateFormat("MMMM dd, YYYY");
                         accountCreation.setText(format.format(creationDate));
-                        // TODO remove me I am just for testing
-                        try {
-                            Thread.sleep(1000);
-                        } catch(Exception e){
-
-                        }
+                        //  remove me I am just for testing
+//                        try {
+//                            Thread.sleep(1000);
+//                        } catch(Exception e){
+//
+//                        }
                         loadingBar = findViewById(R.id.detail_loading);
                         accountDetails = findViewById(R.id.account_details);
                         loadingBar.setVisibility(View.INVISIBLE);

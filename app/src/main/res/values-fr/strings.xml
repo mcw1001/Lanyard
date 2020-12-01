@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+
+    <string name="app_name">Lanyard</string>
+    <string name="listUserTitle">Nom d\'utilisateur:</string>
+    <string name="listPassTitle">Mot de passe:</string>
+    <string name="copyMsg"> mot de passe copié dans le presse-papiers</string>
+
+
+    <!--    LIST  ACTIVITY STRINGS      -->
+    <string name="hintAccountList">rechercher un compte</string>
+    <!--     LIST MENU AND DIALOG -->
+
+    <string name="menuSortTitle">Trier</string>
+    <string name="menuHelpTitle">Aide</string>
+    <string name="menuInfoTitle">Info</string>
+    <string name="menuLogoutTitle">Se déconnecter</string>
+    <string name="menuPopSortTitle">Trier par</string>
+
+
+    <string-array name="sortOptions">
+        <item>Par nom de compte (A-Z)</item>
+        <item>Par nom de compte (Z-A)</item>
+        <item>Par nom d\'utilisateur (A-Z)</item>
+        <item>Par nom d\'utilisateur (Z-A)</item>
+        <item>Par date modifiée (nouvelle-vieux)</item>
+        <item>Par date modifiée (vieux-nouvelle)</item>
+
+    </string-array>
+
+
+
+
+    <!-- INFO BOX TEXT -->
+    <!-- Just took names from FB please change your to the proper name you want on the project -->
+    <!-- each item is new line, / is a tab -->
+    <string-array name="infoBoxText">
+        <item>App nom: Lanyard</item>
+        <item>Version: V2.0</item>
+        <item>--</item>
+        <item>Équipe de développement d\'applications:</item>
+        <item>/James Robertson</item>
+        <item>/Morgenne Besenschek</item>
+        <item>/Michael Child-Wynne-Jones</item>
+        <item>/Asad Abbas</item>
+        <item>/Amardeep Sarang</item>
+    </string-array>
+
+    <string-array name="helpBoxText">
+        <item>Comment copier le mot de passe dans le presse-papiers</item>
+        <item>/- Appuyez longuement sur la carte d\'élément de compte que vous souhaitez copier.</item>
+        <item>--</item>
+        <item>Comment ajouter un nouveau compte à la liste:</item>
+        <item>/1. Appuyez sur le bouton (+)</item>
+        <item>/2. Entrez le nom d\'utilisateur et le nom du compte.</item>
+        <item>/3. Entrez le mot de passe ou appuyez sur \'générer un mot de passe\' pour en créer un automatiquement.</item>
+        <item>/3a. Appuyez sur l\'icône de la clé pour modifier la génération du mot de passe.</item>
+        <item>/4. Appuyez sur ok</item>
+        <item>--</item>
+        <item>Comment trier:</item>
+        <item>/1. Appuyez sur le bouton de tri dans la barre d\'outils</item>
+        <item>/2. Sélectionnez une option par laquelle vous souhaitez trier.</item>
+        <item>/3. Appuyez sur ok pour fermer la boîte de dialogue.</item>
+        <item>--</item>
+        <item>Comment afficher les détails du compte:</item>
+        <item>/- Appuyez sur la carte de l\'élément de compte pour accéder à la page des détails.</item>
+    </string-array>
+
+    <!--    ICON PICKER                  -->
+    <string name="iconPickerTitle">Choisissez une icône</string>
+
+    <!--    LOGIN ACTIVITY STRINGS      -->
+    <string name="loginBtn">S\'identifier</string>
+    <string name="registerBtn">S\'inscrire</string>
+    <string name="usernameTxt">nom d\'utilisateur / email</string>
+    <string name="passwordTxt">Mot de passe</string>
+
+    <string name="emailHint">email@exemple.com</string>
+    <string name="filePrefsName">login_preferences</string>
+
+    <string name="invalidUserPass">Nom d\'utilisateur / mot de passe invalide!</string>
+
+    <string name="emptyUserPassWarning">Le nom d\'utilisateur / mot de passe est vide!</string>
+    <string name="emptyUserWarning">Le nom d\'utilisateur est vide!</string>
+    <string name="emptyPassWarning">Le mot de passe est vide!</string>
+
+    <string name="registerAlertTitle">Enregistrer ce compte et supprimer le précédent?</string>
+    <string name="noUserAccountAlert">Pas de compte utilisateur en mémoire, créer un compte?</string>
+    <!--  ^^^ LOGIN ACTIVITY STRINGS  ^^^    -->
+
+
+    <!-- Alert Dialogs-->
+    <string name="ok">D\'accord</string>
+    <string name="yes">Oui</string>
+    <string name="cancel">Annuler</string>
+    <string name="no">non</string>
+    <string name="alertTitle">ATTENTION</string>
+
+    <!--  ^^^ Alert Dialogs  ^^^    -->
+
+    <string name="creationDate">Date de création:</string>
+
+    <!--    Account Creation Strings-->
+    <string name="generatePass">Générer un mot de passe</string>
+    <string name="storePass">Mot de passe du magasin</string>
+    <string name="generationSettings">Paramètres de génération</string>
+    <string name="accountTitle">Nom du site Web</string>
+    <string name="settingPrefsName">password_gen_settings</string>
+    <string name="emptyTitleWarning">Le titre est vide!</string>
+
+    <string name="passwordSize">Taille du mot de passe</string>
+
+    <string name="lower">Minuscules (abc)</string>
+    <string name="upper">Capitales (ABC)</string>
+    <string name="symbol">Symboles (/\&amp;$%^)</string>
+    <string name="number">Nombres (1234)</string>
+    <string name="examplePass">Exemple de mot de passe:</string>
+    <string name="noChecksWarning">Vous n\'avez aucun paramètre sélectionné!</string>
+    <string name="passSizeWarning">Votre mot de passe est trop petit.</string>
+    <string name="updateEditButton">Mise à jour</string>
+    <!--    Account Creation Strings-->
+
+    <!-- DETAIL VIEW STRINGS -->
+    <string name="change_password_title">Changement de mot de passe est recommandé</string>
+    <string name="change_password_text">Votre mot de passe n\'a pas été modifié depuis un certain temps.Souhaitez-vous le changer maintenant?</string>
+
+
+</resources>

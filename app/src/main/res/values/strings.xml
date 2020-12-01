@@ -37,7 +37,7 @@
         <item>App Developer team (authors):</item>
         <item>/James Robertson</item>
         <item>/Morgenne Besenschek</item>
-        <item>/Mike Jones</item>
+        <item>/Michael Child-Wynne-Jones</item>
         <item>/Asad Abbas</item>
         <item>/Amardeep Sarang</item>
     </string-array>
@@ -48,7 +48,7 @@
         <item>--</item>
         <item>How to add new Account to list:</item>
         <item>/1. Press (+) button.</item>
-        <item>/2. Enter username and website name.</item>
+        <item>/2. Enter username and account name.</item>
         <item>/3. Enter password or tap generate password to have one auto generated.</item>
         <item>/3a. Tap wrench to change password generation settings such as length.</item>
         <item>/4. Tap ok</item>
@@ -63,7 +63,7 @@
     </string-array>
 
     <!--    ICON PICKER                  -->
-    <string name="iconPickerTitle">Pick a icon</string>
+    <string name="iconPickerTitle">Pick an icon</string>
 
     <!--    LOGIN ACTIVITY STRINGS      -->
     <string name="loginBtn">login</string>
@@ -93,7 +93,7 @@
     <string name="alertTitle">ATTENTION</string>
 
     <!--  ^^^ Alert Dialogs  ^^^    -->
-
+    <string name="creationDate">Creation Date:</string>
 
     <!--    Account Creation Strings-->
     <string name="generatePass">Generate Password</string>
