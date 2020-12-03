@@ -2,8 +2,10 @@ package com.cp470.lanyard;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
@@ -12,8 +14,10 @@ import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -27,10 +31,11 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.ServerTimestamp;
 
+import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-public class MainActivity extends AppCompatActivity implements IconPicker.IconDialogListener {
+public class MainActivity extends AppCompatActivity implements IconPicker.IconDialogListener, DatePickerDialog.OnDateSetListener {
     private static final String TAG = "MainActivity";
 
     // Firebase stuff
@@ -40,6 +45,7 @@ public class MainActivity extends AppCompatActivity implements IconPicker.IconDi
     private EditText editTextAccountTitle;
     private EditText editTextAccountUserName;
     private EditText editTextAccountPassword;
+    private TextView expireDate;
 
     private Button genPasswordButton;
     private ImageButton genSettingsButton;
@@ -47,6 +53,8 @@ public class MainActivity extends AppCompatActivity implements IconPicker.IconDi
     private int imageResource;// resource int for icon in list view
     private String settingPrefsFileName;
 
+    private Calendar calendar;
+    private Date date;
 
 
     private Boolean upperCheck;
@@ -59,35 +67,51 @@ public class MainActivity extends AppCompatActivity implements IconPicker.IconDi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        imageResource=R.drawable.ic_iconfinder_new_google_favicon_682665;//default icon
+        imageResource = R.drawable.ic_iconfinder_new_google_favicon_682665;//default icon
         editTextAccountTitle = findViewById(R.id.edit_text_account_title);
         editTextAccountUserName = findViewById(R.id.edit_text_account_userName);
         editTextAccountPassword = findViewById(R.id.edit_text_account_password);
         genPasswordButton = findViewById(R.id.passGenButton);
         genSettingsButton = findViewById(R.id.passGenSettingsButton);
+        expireDate = findViewById(R.id.expireDate);
         settingPrefsFileName = getString(R.string.settingPrefsName);
+
+        //-------------------------------------------------------
+        //Default for expire date
+        //-------------------------------------------------------
+        calendar = Calendar.getInstance();
+        calendar.add(Calendar.MONTH, 6);
+        String currentDateString = "Expire Date: " + DateFormat.getDateInstance().format(calendar.getTime());
+        expireDate.setText(currentDateString);
+
         pullPrefs();
     }
 
-    public void pullPrefs(){
+    public void showDatePickerDialog(View v) {
+        DialogFragment newFragment = new DatePickerFragment();
+        newFragment.show(getSupportFragmentManager(), "datePicker");
+    }
+
+
+    public void pullPrefs() {
         SharedPreferences accountPrefs = getSharedPreferences(settingPrefsFileName, MODE_PRIVATE);
-        upperCheck=accountPrefs.getBoolean("upperCheck",false);
-        lowerCheck=accountPrefs.getBoolean("lowerCheck",true);
-        numCheck=accountPrefs.getBoolean("numCheck",true);
-        symbolCheck=accountPrefs.getBoolean("symbolCheck",false);
-        passwordSize=accountPrefs.getInt("passwordSize",10);
+        upperCheck = accountPrefs.getBoolean("upperCheck", false);
+        lowerCheck = accountPrefs.getBoolean("lowerCheck", true);
+        numCheck = accountPrefs.getBoolean("numCheck", true);
+        symbolCheck = accountPrefs.getBoolean("symbolCheck", false);
+        passwordSize = accountPrefs.getInt("passwordSize", 10);
 //        Log.i(ACTIVITY_NAME,"pullPrefs: upperCheck:"+upperCheck+" lowerCheck:"+lowerCheck+" symbolCheck:"+symbolCheck+" numCheck:"+numCheck+" passwordSize:"+passwordSize);
     }
 
-    public void onGenerateClicked(android.view.View view){
+    public void onGenerateClicked(android.view.View view) {
         pullPrefs();
-        String p = PasswordGenerator.generate(upperCheck,lowerCheck,symbolCheck,numCheck,passwordSize);
+        String p = PasswordGenerator.generate(upperCheck, lowerCheck, symbolCheck, numCheck, passwordSize);
         editTextAccountPassword.setText(p);
     }
 
-    public void onSettingsClicked(View view){
+    public void onSettingsClicked(View view) {
         //either inflate settings or do an additional transition to settings, used sharedprefs?
-        Intent intent = new Intent(MainActivity.this,GenerationSettingsActivity.class);
+        Intent intent = new Intent(MainActivity.this, GenerationSettingsActivity.class);
         startActivity(intent);
     }
 
@@ -104,27 +128,22 @@ public class MainActivity extends AppCompatActivity implements IconPicker.IconDi
         String accountTitle = editTextAccountTitle.getText().toString();
         String accountUserName = editTextAccountUserName.getText().toString();
         String accountPassword = editTextAccountPassword.getText().toString();
-        if(accountTitle.length()<1){
-            Snackbar.make(view, getResources().getString(R.string.emptyTitleWarning),Snackbar.LENGTH_LONG)
-                    .setAction("Action",null).show();
-        }else if (accountUserName.length()<1){
-            Snackbar.make(view, getResources().getString(R.string.emptyUserWarning),Snackbar.LENGTH_LONG)
-                    .setAction("Action",null).show();
-        }else if (accountPassword.length()<=1){
-            Snackbar.make(view, getResources().getString(R.string.emptyPassWarning),Snackbar.LENGTH_LONG)
-                    .setAction("Action",null).show();
-        }else {
+        if (accountTitle.length() < 1) {
+            Snackbar.make(view, getResources().getString(R.string.emptyTitleWarning), Snackbar.LENGTH_LONG)
+                    .setAction("Action", null).show();
+        } else if (accountUserName.length() < 1) {
+            Snackbar.make(view, getResources().getString(R.string.emptyUserWarning), Snackbar.LENGTH_LONG)
+                    .setAction("Action", null).show();
+        } else if (accountPassword.length() <= 1) {
+            Snackbar.make(view, getResources().getString(R.string.emptyPassWarning), Snackbar.LENGTH_LONG)
+                    .setAction("Action", null).show();
+        } else {
             FirebaseUser currentUser = mAuth.getInstance().getCurrentUser();
 
             Timestamp timestamp = Timestamp.now();
 
-            Calendar cal = Calendar.getInstance();
-            cal.set(2020, Calendar.DECEMBER, 31); //Year, month and day of month
-            Date date = cal.getTime();
-
-
+            date = calendar.getTime();
             Timestamp expirationDate = new Timestamp(date);
-
 
             int priority = 0;
 
@@ -161,7 +180,7 @@ public class MainActivity extends AppCompatActivity implements IconPicker.IconDi
          --------------------------------------
          */
         IconPicker iconPicker = new IconPicker();
-        iconPicker.show(getSupportFragmentManager(),"Icon picker");
+        iconPicker.show(getSupportFragmentManager(), "Icon picker");
     }
 
     @Override
@@ -171,8 +190,19 @@ public class MainActivity extends AppCompatActivity implements IconPicker.IconDi
          Interfaces with icon picker fragment
          --------------------------------------
          */
-        imageResource=resourceId;//update resorce id
+        imageResource = resourceId;//update resorce id
         ImageButton imageButton = (ImageButton) findViewById(R.id.iconPickerBt);
         imageButton.setImageResource(imageResource);
+    }
+
+
+    @Override
+    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+        calendar.set(Calendar.YEAR, year);
+        calendar.set(Calendar.MONTH, month);
+        calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+
+        String currentDateString = "Expire Date: " + DateFormat.getDateInstance().format(calendar.getTime());
+        expireDate.setText(currentDateString);
     }
 }

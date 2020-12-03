@@ -2,11 +2,14 @@ package com.cp470.lanyard;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.DialogFragment;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -28,10 +31,11 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
 
+import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-public class AccountListItemDetailView extends AppCompatActivity implements IconPicker.IconDialogListener {
+public class AccountListItemDetailView extends AppCompatActivity implements IconPicker.IconDialogListener, DatePickerDialog.OnDateSetListener {
 
     private static final String TAG = "AccountListItemDetailView";
 
@@ -44,7 +48,11 @@ public class AccountListItemDetailView extends AppCompatActivity implements Icon
     private EditText editTextAccountUserName;
     private EditText editTextAccountPassword;
     private ImageButton imageViewAccountImage;
+    private TextView expireDate_DETAIL;
     private int imageResource;// resource int for icon in list view
+
+    private Calendar calendar;
+    private Date date;
 
     private String settingPrefsFileName;
     private Boolean upperCheck;
@@ -64,8 +72,9 @@ public class AccountListItemDetailView extends AppCompatActivity implements Icon
         editTextAccountUserName = findViewById(R.id.edit_text_account_userName_DETAILVIEW);
         editTextAccountPassword = findViewById(R.id.edit_text_account_password_DETAILVIEW);
         imageViewAccountImage = findViewById(R.id.image_button_account_image_DETAILVIEW);
-
+        expireDate_DETAIL = findViewById(R.id.expireDate_DETAILVIEW);
         settingPrefsFileName = getString(R.string.settingPrefsName);
+        calendar = Calendar.getInstance();
         pullPrefs();
 
         loadAccountItem();
@@ -91,7 +100,12 @@ public class AccountListItemDetailView extends AppCompatActivity implements Icon
                             editTextAccountPassword.setText(accountItem.getPassword());
                             imageViewAccountImage.setImageResource(accountItem.getImageResource());
                             imageViewAccountImage.setTag(accountItem.getImageResource());//use this because there is no getter for imageResource
-                            imageResource=accountItem.getImageResource();
+                            imageResource = accountItem.getImageResource();
+                            Timestamp timestamp = accountItem.getExpirationDate();
+                            date = timestamp.toDate();
+                            calendar.setTime(date);
+                            String currentDateString = "Expire Date: " + DateFormat.getDateInstance().format(calendar.getTime());
+                            expireDate_DETAIL.setText(currentDateString);
                         } else {
                             Toast.makeText(AccountListItemDetailView.this, "Error loading password", Toast.LENGTH_SHORT).show();
                         }
@@ -144,9 +158,7 @@ public class AccountListItemDetailView extends AppCompatActivity implements Icon
 
         Timestamp timestamp = Timestamp.now();
 
-        Calendar cal = Calendar.getInstance();
-        cal.set(2020, Calendar.DECEMBER, 31); //Year, month and day of month
-        Date date = cal.getTime();
+        date = calendar.getTime();
         Timestamp expirationDate = new Timestamp(date);
 
         int priority = 0;
@@ -181,5 +193,20 @@ public class AccountListItemDetailView extends AppCompatActivity implements Icon
         imageResource=resourceId;//update resorce id
         imageViewAccountImage.setImageResource(imageResource);
         imageViewAccountImage.setTag(resourceId);//use this because there is no getter for imageResource
+    }
+
+    public void showDatePickerDialog(View v) {
+        DialogFragment newFragment = new DatePickerFragment();
+        newFragment.show(getSupportFragmentManager(), "datePicker");
+    }
+
+    @Override
+    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+        calendar.set(Calendar.YEAR, year);
+        calendar.set(Calendar.MONTH, month);
+        calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+
+        String currentDateString = "Expire Date: " + DateFormat.getDateInstance().format(calendar.getTime());
+        expireDate_DETAIL.setText(currentDateString);
     }
 }

@@ -28,6 +28,10 @@
         android:hint="User Name/Email"
         android:inputType="text"
         android:imeOptions="actionDone"/>
+    <TextView
+        android:id="@+id/expireDate_DETAILVIEW"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 
     <EditText
         android:id="@+id/edit_text_account_password_DETAILVIEW"
@@ -67,7 +71,14 @@
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@android:drawable/ic_menu_preferences" />
     </androidx.constraintlayout.widget.ConstraintLayout>
-
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="showDatePickerDialog"
+        android:text="@string/expirationDate"
+        app:layout_constraintEnd_toStartOf="@+id/passGenSettingsButton"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="0dp" />
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
