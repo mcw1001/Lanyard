@@ -57,6 +57,10 @@
         android:hint="@string/passwordTxt"
         android:imeOptions="actionDone"
         android:inputType="text" />
+    <TextView
+        android:id="@+id/expireDate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -90,6 +94,14 @@
             app:srcCompat="@android:drawable/ic_menu_preferences" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="showDatePickerDialog"
+        android:text="@string/expirationDate"
+        app:layout_constraintEnd_toStartOf="@+id/passGenSettingsButton"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="0dp" />
 
     <Button
         android:layout_width="match_parent"

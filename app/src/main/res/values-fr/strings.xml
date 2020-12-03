@@ -124,6 +124,7 @@
     <!-- DETAIL VIEW STRINGS -->
     <string name="change_password_title">Changement de mot de passe est recommandé</string>
     <string name="change_password_text">Votre mot de passe n\'a pas été modifié depuis un certain temps.Souhaitez-vous le changer maintenant?</string>
+    <string name="expirationDate">Expiration date</string>
 
 
 </resources>
