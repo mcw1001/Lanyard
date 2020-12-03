@@ -1,17 +1,15 @@
 package com.cp470.lanyard;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 
-import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 //import android.view.Gravity;
 import android.view.View;
@@ -45,6 +43,8 @@ public class LoginActivity extends AppCompatActivity {
 
     EditText inputUsernameMaster;
     EditText inputPasswordMaster;
+    Button loginButton;
+    Button registerButton;
 
 
     @Override
@@ -56,6 +56,13 @@ public class LoginActivity extends AppCompatActivity {
         inputUsernameMaster = findViewById(R.id.editTextEmailAddress);
         inputPasswordMaster = findViewById(R.id.editTextPassword);
 
+        loginButton = findViewById(R.id.login_button);
+        registerButton = findViewById(R.id.register_button);
+
+        inputUsernameMaster.addTextChangedListener(loginRegisterTextWatcher);
+        inputPasswordMaster.addTextChangedListener(loginRegisterTextWatcher);
+
+
         // initialize_auth
         //----------------------------------
         mAuth = FirebaseAuth.getInstance();
@@ -63,6 +70,26 @@ public class LoginActivity extends AppCompatActivity {
 
         mLoadingBar = new ProgressDialog(LoginActivity.this);
     }
+    private TextWatcher loginRegisterTextWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            String inputUsernameMasterValue = inputUsernameMaster.getText().toString().trim();
+            String inputPasswordMasterValue = inputPasswordMaster.getText().toString().trim();
+
+            loginButton.setEnabled(!inputUsernameMasterValue.isEmpty() && !inputPasswordMasterValue.isEmpty());
+            registerButton.setEnabled(!inputUsernameMasterValue.isEmpty() && !inputPasswordMasterValue.isEmpty());
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+
+        }
+    };
 
     @Override
     protected void onResume() {
@@ -132,7 +159,7 @@ public class LoginActivity extends AppCompatActivity {
                     // This hides the keyboard in the case it is left open and they click the login button
                     InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-                    Toast.makeText(LoginActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this, task.getException().getMessage(), Toast.LENGTH_LONG).show();
                     inputUsernameMaster.setText("");
                     inputPasswordMaster.setText("");
                     mLoadingBar.dismiss();
@@ -179,7 +206,7 @@ public class LoginActivity extends AppCompatActivity {
                     InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
 
-                    Toast.makeText(LoginActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this, task.getException().getMessage(), Toast.LENGTH_LONG).show();
                     inputUsernameMaster.setText("");
                     inputPasswordMaster.setText("");
                     mLoadingBar.dismiss();
