@@ -86,17 +86,12 @@ public class AccountDetailActivity extends AppCompatActivity {
                         Date creationDate = accountItem.getTimestamp().toDate();
                         SimpleDateFormat format = new SimpleDateFormat("MMMM dd, YYYY");
                         accountCreation.setText(format.format(creationDate));
-                        //  remove me I am just for testing
-//                        try {
-//                            Thread.sleep(1000);
-//                        } catch(Exception e){
-//
-//                        }
                         loadingBar = findViewById(R.id.detail_loading);
                         accountDetails = findViewById(R.id.account_details);
                         loadingBar.setVisibility(View.INVISIBLE);
                         accountDetails.setVisibility(View.VISIBLE);
-                        checkPasswordLastUpdated(creationDate);
+                        Date expiryDate = accountItem.getExpirationDate().toDate();
+                        checkPasswordLastUpdated(creationDate, expiryDate);
 
                     } else {
                         Toast.makeText(AccountDetailActivity.this, "Error loading password", Toast.LENGTH_SHORT).show();
@@ -117,14 +112,9 @@ public class AccountDetailActivity extends AppCompatActivity {
         startActivityForResult(i, 15);
     }
 
-    public void checkPasswordLastUpdated(Date lastUpdated) {
-        // TODO user should be able to modify this setting
-        int MONTHS_BEFORE_EDIT = 1;
-        Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.MONTH, -MONTHS_BEFORE_EDIT);
-        Date beforeNow = calendar.getTime();
+    public void checkPasswordLastUpdated(Date lastUpdated, Date expiryDate) {
         // User's password has not been updated in awhile, suggest an update
-        if (beforeNow.compareTo(lastUpdated) > 0) {
+        if (expiryDate.compareTo(lastUpdated) > 0) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             LayoutInflater inflater = getLayoutInflater();
             builder.setView(inflater.inflate(R.layout.password_reminder_dialog, null));
