@@ -124,7 +124,12 @@
     <!-- DETAIL VIEW STRINGS -->
     <string name="change_password_title">Changement de mot de passe est recommandé</string>
     <string name="change_password_text">Votre mot de passe n\'a pas été modifié depuis un certain temps.Souhaitez-vous le changer maintenant?</string>
-    <string name="expirationDate">Expiration date</string>
+    <string name="expirationDate">Date d\'expiration</string>
+    <string name="expirationDateShort">Date d\'expiration:</string>
+    <string name="passwordTimesCopied">Fois copié:</string>
 
+    <!-- Account edit strings -->
+    <string name="passwordUpdated">Mot de passe a été actualisé</string>
+    <string name="passwordError">Une erreur s\'est produite pendant le chargement du mot de passe</string>
 
 </resources>

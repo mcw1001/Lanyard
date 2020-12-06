@@ -119,5 +119,11 @@
     <string name="change_password_title">Password change recommended</string>
     <string name="change_password_text">Your password has not been changed in some time. Would you like to change it now?</string>
     <string name="expirationDate">Expiration date</string>
+    <string name="expirationDateShort">Expiry Date:</string>
+    <string name="passwordTimesCopied">Times Copied:</string>
+
+    <!-- Account edit strings -->
+    <string name="passwordUpdated">Password Updated</string>
+    <string name="passwordError">Error loading password</string>
 
 </resources>

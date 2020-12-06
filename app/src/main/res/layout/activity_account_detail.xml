@@ -50,9 +50,10 @@
                 android:textColor="@color/mainTextColor"
                 android:textSize="@dimen/listTitle"
                 android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@id/detailUserNameTitleAccountItem"
                 app:layout_constraintLeft_toRightOf="@id/detailIconAccountItem"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toTopOf="@id/detailUserNameTitleAccountItem"/>
+                app:layout_constraintVertical_bias="0.0" />
 
             <!-- Username -->
             <TextView
@@ -113,7 +114,30 @@
                 android:textSize="@dimen/detailText"
                 android:singleLine="false"
                 app:layout_constraintLeft_toLeftOf="@id/detailIconAccountItem"
-                app:layout_constraintBottom_toTopOf="@id/detailCreationDateTitle" />
+                app:layout_constraintBottom_toTopOf="@id/detailPassCopyTitle" />
+
+            <!-- Password copied statistics -->
+            <TextView
+                android:id="@+id/detailPassCopyTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/detailTextSpacing"
+                android:text="@string/passwordTimesCopied"
+                android:textColor="@color/mainTextColor"
+                android:textSize="@dimen/detailText"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@id/detailPassCopy"
+                app:layout_constraintLeft_toLeftOf="@id/detailIconAccountItem" />
+
+            <TextView
+                android:id="@+id/detailPassCopy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/detailTextSpacing"
+                android:text="empty times copied"
+                android:textSize="@dimen/detailText"
+                app:layout_constraintBottom_toTopOf="@id/detailCreationDateTitle"
+                app:layout_constraintLeft_toLeftOf="@id/detailIconAccountItem" />
 
             <!-- Creation date -->
             <TextView
