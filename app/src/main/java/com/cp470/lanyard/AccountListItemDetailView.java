@@ -50,6 +50,7 @@ public class AccountListItemDetailView extends AppCompatActivity implements Icon
     private ImageButton imageViewAccountImage;
     private TextView expireDate_DETAIL;
     private int imageResource;// resource int for icon in list view
+    private int priority;
 
     private Calendar calendar;
     private Date date;
@@ -102,6 +103,7 @@ public class AccountListItemDetailView extends AppCompatActivity implements Icon
                             imageViewAccountImage.setTag(accountItem.getImageResource());//use this because there is no getter for imageResource
                             imageResource = accountItem.getImageResource();
                             Timestamp timestamp = accountItem.getExpirationDate();
+                            priority = accountItem.getPriority();
                             // If expiry date is within 6 months or has passed, default new expiry date to 6 months from now
                             calendar.add(Calendar.MONTH, 6);
                             Date sixMonthsFromNow = calendar.getTime();
@@ -169,8 +171,6 @@ public class AccountListItemDetailView extends AppCompatActivity implements Icon
 
         date = calendar.getTime();
         Timestamp expirationDate = new Timestamp(date);
-
-        int priority = 0;
 
 
         AccountItem accountItem = new AccountItem(currentUser, imageResource, accountTitle, accountUserName, accountPassword, timestamp, expirationDate, priority);
