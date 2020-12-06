@@ -102,12 +102,21 @@ public class AccountListItemDetailView extends AppCompatActivity implements Icon
                             imageViewAccountImage.setTag(accountItem.getImageResource());//use this because there is no getter for imageResource
                             imageResource = accountItem.getImageResource();
                             Timestamp timestamp = accountItem.getExpirationDate();
+                            // If expiry date is within 6 months or has passed, default new expiry date to 6 months from now
+                            calendar.add(Calendar.MONTH, 6);
+                            Date sixMonthsFromNow = calendar.getTime();
                             date = timestamp.toDate();
+                            if (sixMonthsFromNow.compareTo(date) > 0) {
+                                date = sixMonthsFromNow;
+                            }
                             calendar.setTime(date);
-                            String currentDateString = "Expire Date: " + DateFormat.getDateInstance().format(calendar.getTime());
+                            String currentDateString = getString(R.string.expirationDateShort) + " "
+                                    + DateFormat.getDateInstance().format(calendar.getTime());
                             expireDate_DETAIL.setText(currentDateString);
+
                         } else {
-                            Toast.makeText(AccountListItemDetailView.this, "Error loading password", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(AccountListItemDetailView.this,
+                                    getString(R.string.passwordError), Toast.LENGTH_SHORT).show();
                         }
                     }
                 })
@@ -167,7 +176,8 @@ public class AccountListItemDetailView extends AppCompatActivity implements Icon
         AccountItem accountItem = new AccountItem(currentUser, imageResource, accountTitle, accountUserName, accountPassword, timestamp, expirationDate, priority);
 
         db.collection("accounts").document(documentId).set(accountItem, SetOptions.merge());
-        Toast.makeText(AccountListItemDetailView.this, "Password Updated", Toast.LENGTH_SHORT).show();
+        Toast.makeText(AccountListItemDetailView.this, getString(R.string.passwordUpdated),
+                Toast.LENGTH_SHORT).show();
         // TODO give proper result code
         this.setResult(1);
         finish();
@@ -206,7 +216,8 @@ public class AccountListItemDetailView extends AppCompatActivity implements Icon
         calendar.set(Calendar.MONTH, month);
         calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
 
-        String currentDateString = "Expire Date: " + DateFormat.getDateInstance().format(calendar.getTime());
+        String currentDateString = getString(R.string.expirationDateShort) + " "
+                + DateFormat.getDateInstance().format(calendar.getTime());
         expireDate_DETAIL.setText(currentDateString);
     }
 }

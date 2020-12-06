@@ -37,6 +37,7 @@ public class AccountDetailActivity extends AppCompatActivity {
     protected TextView accountUsername;
     protected TextView accountPassword;
     protected TextView accountCreation;
+    protected TextView accountTimesCopied;
     protected ProgressBar loadingBar;
     protected ConstraintLayout accountDetails;
     protected ImageView togglePassword;
@@ -58,6 +59,7 @@ public class AccountDetailActivity extends AppCompatActivity {
         accountPassword = findViewById(R.id.detailPassAccountItem);
         accountPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
         accountCreation = findViewById(R.id.detailCreationDate);
+        accountTimesCopied = findViewById(R.id.detailPassCopy);
         togglePassword = findViewById(R.id.detail_toggle_password);
 
         loadAccountItem();
@@ -86,17 +88,13 @@ public class AccountDetailActivity extends AppCompatActivity {
                         Date creationDate = accountItem.getTimestamp().toDate();
                         SimpleDateFormat format = new SimpleDateFormat("MMMM dd, YYYY");
                         accountCreation.setText(format.format(creationDate));
-                        //  remove me I am just for testing
-//                        try {
-//                            Thread.sleep(1000);
-//                        } catch(Exception e){
-//
-//                        }
+                        accountTimesCopied.setText(Integer.toString(accountItem.getPriority()));
                         loadingBar = findViewById(R.id.detail_loading);
                         accountDetails = findViewById(R.id.account_details);
                         loadingBar.setVisibility(View.INVISIBLE);
                         accountDetails.setVisibility(View.VISIBLE);
-                        checkPasswordLastUpdated(creationDate);
+                        Date expiryDate = accountItem.getExpirationDate().toDate();
+                        checkPasswordLastUpdated(expiryDate);
 
                     } else {
                         Toast.makeText(AccountDetailActivity.this, "Error loading password", Toast.LENGTH_SHORT).show();
@@ -117,14 +115,10 @@ public class AccountDetailActivity extends AppCompatActivity {
         startActivityForResult(i, 15);
     }
 
-    public void checkPasswordLastUpdated(Date lastUpdated) {
-        // TODO user should be able to modify this setting
-        int MONTHS_BEFORE_EDIT = 1;
-        Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.MONTH, -MONTHS_BEFORE_EDIT);
-        Date beforeNow = calendar.getTime();
+    public void checkPasswordLastUpdated(Date expiryDate) {
         // User's password has not been updated in awhile, suggest an update
-        if (beforeNow.compareTo(lastUpdated) > 0) {
+        Date now = new Date();
+        if (expiryDate.compareTo(now) < 0) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             LayoutInflater inflater = getLayoutInflater();
             builder.setView(inflater.inflate(R.layout.password_reminder_dialog, null));
