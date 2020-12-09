@@ -26,41 +26,16 @@ import static org.junit.Assert.assertTrue;
 @RunWith(AndroidJUnit4.class)
 public class LoginActivityTest {
     @Rule
-    public ActivityScenarioRule<LoginActivity> activityRule = new ActivityScenarioRule(LoginActivity.class);
-
-    @Test
-    public void useAppContext() {
-        // Context of the app under test.
-        Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
-        assertEquals("com.cp470.lanyard", appContext.getPackageName());
-    }
-
-    public void tearDown() throws Exception {
-
-    }
+    public ActivityScenarioRule<LoginActivity> rule = new ActivityScenarioRule(LoginActivity.class);
 
     @Test
     public void testOnCreate() {
-        LoginActivity activity = new LoginActivity();
         // Assert basic elements of Activity are loaded correctly
-        assertThat(activity.findViewById(R.id.editTextEmailAddress), instanceOf(EditText.class));
-        assertThat(activity.findViewById(R.id.editTextPassword), instanceOf(EditText.class));
-        assertThat(activity.findViewById(R.id.register_button), instanceOf(Button.class));
-        assertThat(activity.findViewById(R.id.login_button), instanceOf(Button.class));
-    }
-
-    public void testLogin() {
-
-    }
-
-    public void testCreateAccount() {
-    }
-
-    public void handleInvalidLogin() {
-
-    }
-
-    public void handleInvalidRegister() {
-
+        rule.getScenario().onActivity(activity -> {
+            assertThat(activity.findViewById(R.id.editTextEmailAddress), instanceOf(EditText.class));
+            assertThat(activity.findViewById(R.id.editTextPassword), instanceOf(EditText.class));
+            assertThat(activity.findViewById(R.id.register_button), instanceOf(Button.class));
+            assertThat(activity.findViewById(R.id.login_button), instanceOf(Button.class));
+        });
     }
 }

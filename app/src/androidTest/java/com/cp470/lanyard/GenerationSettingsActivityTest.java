@@ -1,5 +1,8 @@
 package com.cp470.lanyard;
 
+import android.app.ActivityManager;
+import android.app.Instrumentation;
+import android.content.Context;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -42,14 +45,9 @@ public class GenerationSettingsActivityTest {
     }
 
     @Test
-    public void testCheckBoxes() {
+    public void testCheckBox() {
         rule.getScenario().onActivity(activity -> {
             activity.findViewById(R.id.upperCheck).callOnClick();
         });
-    }
-
-    @Test
-    public void savePasswordPreferences() {
-
     }
 }

@@ -72,6 +72,7 @@
             app:srcCompat="@android:drawable/ic_menu_preferences" />
     </androidx.constraintlayout.widget.ConstraintLayout>
     <Button
+        android:id="@+id/edit_password_expiry"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="showDatePickerDialog"
@@ -80,6 +81,7 @@
         app:layout_constraintStart_toStartOf="parent"
         tools:layout_editor_absoluteY="0dp" />
     <Button
+        android:id="@+id/update_account_password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="editPassword"
