@@ -22,6 +22,9 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
+import com.google.firebase.auth.FirebaseAuthInvalidUserException;
+import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 
 //import com.google.android.material.snackbar.Snackbar;
 /*
@@ -134,13 +137,8 @@ public class LoginActivity extends AppCompatActivity {
         String usernameMaster = inputUsernameMaster.getText().toString();
         String passwordMaster = inputPasswordMaster.getText().toString();
 
-        //TODO check here for password and username entry issues, maybe write a function to do this.
-        // - check that the usernameMaster and passwordMaster are not empty
-        // - the usernameMaster has to look like an email user@emaildomain.something
-        // - password has to be length of 7 char or greater (ex 1234567, abcdefg, 1234abc)
-
-        mLoadingBar.setTitle("Login");
-        mLoadingBar.setMessage("Please wait, while we verify your login");
+        mLoadingBar.setTitle(getString(R.string.loginTitle));
+        mLoadingBar.setMessage(getString(R.string.loggingIn));
         mLoadingBar.setCanceledOnTouchOutside(false);
         mLoadingBar.show();
 
@@ -148,7 +146,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
-                    Toast.makeText(LoginActivity.this, "You are logged in!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this, getString(R.string.loggedIn), Toast.LENGTH_SHORT).show();
                     mLoadingBar.dismiss();
                     Intent intent = new Intent(LoginActivity.this, AccountListActivity.class);
                     // so you cannot go back to login screen
@@ -159,7 +157,8 @@ public class LoginActivity extends AppCompatActivity {
                     // This hides the keyboard in the case it is left open and they click the login button
                     InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-                    Toast.makeText(LoginActivity.this, task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                    String errorMessage = parseLoginError(task.getException());
+                    Toast.makeText(LoginActivity.this, errorMessage, Toast.LENGTH_LONG).show();
                     inputUsernameMaster.setText("");
                     inputPasswordMaster.setText("");
                     mLoadingBar.dismiss();
@@ -181,13 +180,8 @@ public class LoginActivity extends AppCompatActivity {
         String usernameMaster = inputUsernameMaster.getText().toString();
         String passwordMaster = inputPasswordMaster.getText().toString();
 
-        //TODO check here for password and username entry issues, maybe write a function to do this.
-        // - check that the usernameMaster and passwordMaster are not empty
-        // - the usernameMaster has to look like an email user@emaildomain.something
-        // - password has to be length of 7 char or greater (ex 1234567, abcdefg, 1234abc)
-
-        mLoadingBar.setTitle("Login");
-        mLoadingBar.setMessage("Please wait, while we create your account");
+        mLoadingBar.setTitle(getString(R.string.loginTitle));
+        mLoadingBar.setMessage(getString(R.string.creatingAccount));
         mLoadingBar.setCanceledOnTouchOutside(false);
         mLoadingBar.show();
 
@@ -195,7 +189,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
-                    Toast.makeText(LoginActivity.this, "Your account was created", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this, getString(R.string.accountCreated), Toast.LENGTH_SHORT).show();
                     mLoadingBar.dismiss();
                     Intent intent = new Intent(LoginActivity.this, AccountListActivity.class);
                     // so you cannot go back to login screen
@@ -205,13 +199,42 @@ public class LoginActivity extends AppCompatActivity {
                     // This hides the keyboard in the case it is left open and they click the register button
                     InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-
-                    Toast.makeText(LoginActivity.this, task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                    String errorMessage = parseLoginError(task.getException());
+                    Toast.makeText(LoginActivity.this, errorMessage, Toast.LENGTH_LONG).show();
                     inputUsernameMaster.setText("");
                     inputPasswordMaster.setText("");
                     mLoadingBar.dismiss();
                 }
             }
         });
+    }
+
+    // Helper function to parse an auth exception from Firebase and return a fitting error message
+    // If no message exists for some error code, a generic error message is returned
+    private String parseLoginError(Exception e) {
+        String errorMessage = getString(R.string.generic_auth_error);
+        if (e instanceof FirebaseAuthInvalidCredentialsException) {
+            switch(((FirebaseAuthInvalidCredentialsException) e).getErrorCode()) {
+                case "ERROR_WRONG_PASSWORD":
+                    errorMessage = getString(R.string.error_invalid_credentials);
+                    break;
+                case "ERROR_INVALID_EMAIL":
+                    errorMessage = getString(R.string.error_invalid_email);
+                    break;
+                case "ERROR_WEAK_PASSWORD":
+                    errorMessage = getString(R.string.error_weak_password);
+                    break;
+            }
+        } else if (e instanceof FirebaseAuthInvalidUserException) {
+            if (((FirebaseAuthInvalidUserException) e).getErrorCode() == "ERROR_USER_NOT_FOUND") {
+                errorMessage = getString(R.string.error_user_does_not_exist);
+            }
+        }
+        else if (e instanceof FirebaseAuthUserCollisionException) {
+            if (((FirebaseAuthUserCollisionException) e).getErrorCode() == "ERROR_EMAIL_ALREADY_IN_USE") {
+                errorMessage = getString(R.string.error_user_already_exists);
+            }
+        }
+        return errorMessage;
     }
 }

@@ -38,6 +38,7 @@ import java.util.Date;
 public class AccountListItemDetailView extends AppCompatActivity implements IconPicker.IconDialogListener, DatePickerDialog.OnDateSetListener {
 
     private static final String TAG = "AccountListItemDetailView";
+    protected static final int EDIT_SUCCESS = 1;
 
     // Firebase stuff
     private FirebaseAuth mAuth;
@@ -178,8 +179,7 @@ public class AccountListItemDetailView extends AppCompatActivity implements Icon
         db.collection("accounts").document(documentId).set(accountItem, SetOptions.merge());
         Toast.makeText(AccountListItemDetailView.this, getString(R.string.passwordUpdated),
                 Toast.LENGTH_SHORT).show();
-        // TODO give proper result code
-        this.setResult(1);
+        this.setResult(EDIT_SUCCESS);
         finish();
 
     }
