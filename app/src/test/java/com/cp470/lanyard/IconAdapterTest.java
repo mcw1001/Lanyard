@@ -36,6 +36,6 @@ public class IconAdapterTest {
         IconAdapter iconAdapter = createIconAdapter();
         assertEquals(iconAdapter.getCount(), mIcons.length);
         assertEquals(iconAdapter.getItem(2), mIcons[2]);
-        assertEquals(iconAdapter.getItemId(3), 3);;
+        assertEquals(iconAdapter.getItemId(3), 3);
     }
 }
