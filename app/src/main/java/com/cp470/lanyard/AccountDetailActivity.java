@@ -32,6 +32,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class AccountDetailActivity extends AppCompatActivity {
+    protected static final int EDIT_SUCCESS = 1;
     protected TextView accountTitle;
     protected ImageView accountIcon;
     protected TextView accountUsername;
@@ -157,7 +158,7 @@ public class AccountDetailActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         // Account details changed successfully; reload with new data
-        if (resultCode == 1) {
+        if (resultCode == EDIT_SUCCESS) {
             loadingBar.setVisibility(View.VISIBLE);
             accountDetails.setVisibility(View.INVISIBLE);
             loadAccountItem();

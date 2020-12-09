@@ -87,8 +87,21 @@
 
     <string name="registerAlertTitle">Enregistrer ce compte et supprimer le précédent?</string>
     <string name="noUserAccountAlert">Pas de compte utilisateur en mémoire, créer un compte?</string>
+    <string name="loggedIn">Vous êtes connecté!</string>
+    <string name="loggedOut">Vous êtes déconnecté!</string>
+    <string name="accountCreated">Votre compte est créé</string>
+    <string name="loginTitle">Ouverture de Session</string>
+    <string name="loggingIn">S\'il vous plaît, attendez pendant que nous vérifions votre identifiant</string>
+    <string name="creatingAccount">S\'il vous plaît, attendez pendant que nous créons votre compte</string>
     <!--  ^^^ LOGIN ACTIVITY STRINGS  ^^^    -->
 
+    <!--  Login/Registration Error Messages  -->
+    <string name="error_invalid_email">Le format d\'address email est incorrect</string>
+    <string name="error_weak_password">Le mot de passe doit être au moins 6 caractères de long</string>
+    <string name="error_user_already_exists">Il existe déjà un compte avec cette identifiant</string>
+    <string name="error_invalid_credentials">Le mot de passe est incorrect</string>
+    <string name="error_user_does_not_exist">Il n\'existe pas un compte avec cette identifiant</string>
+    <string name="generic_auth_error">Une erreur s\'est produite pendant votre essai de se connecter/s\'inscrire</string>
 
     <!-- Alert Dialogs-->
     <string name="ok">D\'accord</string>
@@ -119,6 +132,7 @@
     <string name="noChecksWarning">Vous n\'avez aucun paramètre sélectionné!</string>
     <string name="passSizeWarning">Votre mot de passe est trop petit.</string>
     <string name="updateEditButton">Mise à jour</string>
+    <string name="passwordStored">Mot de passe a été gardé</string>
     <!--    Account Creation Strings-->
 
     <!-- DETAIL VIEW STRINGS -->

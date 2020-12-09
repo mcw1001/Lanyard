@@ -162,19 +162,6 @@ public class AccountListActivity extends AppCompatActivity {
         Intent i = new Intent(this, MainActivity.class);
         startActivityForResult(i, 10);
     }
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, Intent data){
-//        super.onActivityResult(requestCode,resultCode,data);
-//        // NOTE: the resulting new account item should be sent to database, then refreshed
-//        if(resultCode==10 && data.hasExtra("NewAccountItem")){
-//            Bundle bundle = data.getExtras();//getIntent().getExtras();
-//            AccountItem account = (AccountItem) bundle.getParcelable("NewAccountItem");
-//            Log.i("onActivityResult","account received:"+account.getTitle());
-//
-//            viewItemsList.add(account);
-//            mAdapter.notifyDataSetChanged(); //do this after?
-//        }
-//    }
 
     public void logout() {
         /**
@@ -190,7 +177,7 @@ public class AccountListActivity extends AppCompatActivity {
         // so you cannot go back to login screen
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
-        Toast.makeText(AccountListActivity.this, "You are logged out!", Toast.LENGTH_SHORT).show();
+        Toast.makeText(AccountListActivity.this, getString(R.string.loggedOut), Toast.LENGTH_SHORT).show();
     }
 
     //====================== MENUBAR, SORT, AND HELP BUTTON ========================================
@@ -316,7 +303,7 @@ public class AccountListActivity extends AppCompatActivity {
         sortDialog.setNeutralButton(R.string.ok, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                //just close dialog bsox
+                //just close dialog box
             }
         });
 
@@ -352,7 +339,7 @@ public class AccountListActivity extends AppCompatActivity {
         infoDialogBuilder.setNeutralButton(R.string.ok, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                //just close dialog bsox
+                //just close dialog box
             }
         });
         AlertDialog dialog = infoDialogBuilder.create();

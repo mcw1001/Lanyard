@@ -82,8 +82,21 @@
 
     <string name="registerAlertTitle">Register this account, and erase the previous one?</string>
     <string name="noUserAccountAlert">No user account in memory, create an account?</string>
+    <string name="loggedIn">You are logged in!</string>
+    <string name="loggedOut">You are logged out!</string>
+    <string name="accountCreated">Your account was created</string>
+    <string name="loginTitle">Login</string>
+    <string name="loggingIn">Please wait, while we verify your login</string>
+    <string name="creatingAccount">Please wait, while we create your account</string>
     <!--  ^^^ LOGIN ACTIVITY STRINGS  ^^^    -->
 
+    <!--  Login/Registration Error Messages  -->
+    <string name="error_invalid_email">The email address is formatted incorrectly</string>
+    <string name="error_weak_password">The password must be at least 6 characters long</string>
+    <string name="error_user_already_exists">An account with that username already exists</string>
+    <string name="error_invalid_credentials">The password is incorrect</string>
+    <string name="error_user_does_not_exist">An account with that username does not exist</string>
+    <string name="generic_auth_error">An error occurred while handling your login/registration attempt</string>
 
     <!-- Alert Dialogs-->
     <string name="ok">OK</string>
@@ -113,6 +126,7 @@
     <string name="noChecksWarning">You have no parameters selected!</string>
     <string name="passSizeWarning">Your password is too small.</string>
     <string name="updateEditButton">Update</string>
+    <string name="passwordStored">Password Stored</string>
     <!--    Account Creation Strings-->
 
     <!-- DETAIL VIEW STRINGS -->

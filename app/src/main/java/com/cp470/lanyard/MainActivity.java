@@ -81,7 +81,8 @@ public class MainActivity extends AppCompatActivity implements IconPicker.IconDi
         //-------------------------------------------------------
         calendar = Calendar.getInstance();
         calendar.add(Calendar.MONTH, 6);
-        String currentDateString = "Expire Date: " + DateFormat.getDateInstance().format(calendar.getTime());
+        String currentDateString = getString(R.string.expirationDateShort)
+                + " " + DateFormat.getDateInstance().format(calendar.getTime());
         expireDate.setText(currentDateString);
 
         pullPrefs();
@@ -110,7 +111,6 @@ public class MainActivity extends AppCompatActivity implements IconPicker.IconDi
     }
 
     public void onSettingsClicked(View view) {
-        //either inflate settings or do an additional transition to settings, used sharedprefs?
         Intent intent = new Intent(MainActivity.this, GenerationSettingsActivity.class);
         startActivity(intent);
     }
@@ -165,7 +165,7 @@ public class MainActivity extends AppCompatActivity implements IconPicker.IconDi
                             Log.w(TAG, "Error adding document", e);
                         }
                     });
-            Toast.makeText(MainActivity.this, "Password Stored", Toast.LENGTH_SHORT).show();
+            Toast.makeText(MainActivity.this, getString(R.string.passwordStored), Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(MainActivity.this, AccountListActivity.class);
             // so you cannot go back to login screen
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -190,7 +190,7 @@ public class MainActivity extends AppCompatActivity implements IconPicker.IconDi
          Interfaces with icon picker fragment
          --------------------------------------
          */
-        imageResource = resourceId;//update resorce id
+        imageResource = resourceId;//update resource id
         ImageButton imageButton = (ImageButton) findViewById(R.id.iconPickerBt);
         imageButton.setImageResource(imageResource);
     }
@@ -202,7 +202,8 @@ public class MainActivity extends AppCompatActivity implements IconPicker.IconDi
         calendar.set(Calendar.MONTH, month);
         calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
 
-        String currentDateString = "Expire Date: " + DateFormat.getDateInstance().format(calendar.getTime());
+        String currentDateString = getString(R.string.expirationDateShort)
+                + " " + DateFormat.getDateInstance().format(calendar.getTime());
         expireDate.setText(currentDateString);
     }
 }
